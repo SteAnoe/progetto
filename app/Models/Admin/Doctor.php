@@ -4,20 +4,31 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+
 class Doctor extends Model
 {
     use HasFactory;
 
-    public static function generateSlug($name)
-    {
-        return  Str::slug($name, '-');
-    }
-
-    protected $fillable = ['user_id', 'curriculum_vitae' , 'photo' , 'phone' , 'description' , 'address' , 'slug'];
+    protected $fillable = ['user_id', 'curriculum_vitae' , 'photo' , 'phone' , 'description' , 'address'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function specializations(){
+	    return $this->belongsToMany(Specialization::class);
+    }
+
+    public function sponsorships(){
+	    return $this->belongsToMany(Sponsorship::class);
     }
 }

@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             $newUser->name = $faker->unique()->firstName;
             $newUser->lastname = $faker->unique()->lastName;
             $newUser->email = $faker->unique()->email;
-            $newUser->password = Hash::make($faker->numerify('user-####'));
+            $newUser->password = Hash::make('password');
             $newUser->slug = Str::slug($newUser->name .'-'. $newUser->lastname);
             $newUser->save();
 

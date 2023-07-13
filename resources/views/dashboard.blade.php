@@ -22,6 +22,7 @@
 
 
                 <h3>{{$user->name}}</h3>
+                <p>{{$doctor->description}}</p>
 
             </div>
         </div>

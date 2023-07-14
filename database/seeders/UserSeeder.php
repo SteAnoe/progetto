@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
             $newDoctor->photo = 'doctor-login.png';
             $newDoctor->description = $faker->paragraph;
             $newDoctor->save();
-
     }
 }
 }

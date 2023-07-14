@@ -99,11 +99,11 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Doctor $doctor)
+    public function edit($id)
     {
         $specializations = Specialization::all();
-        
-        return view('admin.doctor.edit', compact('specializations','doctor'));
+        $mod_doctor =  Doctor::findOrFail($id);
+        return view('admin.doctor.edit', compact('specializations','mod_doctor'));
     }
 
     /**

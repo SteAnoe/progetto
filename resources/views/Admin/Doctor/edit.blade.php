@@ -2,7 +2,7 @@
 @section('content')
 <h1>pag create</h1>
 
-<form action="{{route ('admin.dashboard.update',$doctor)}}" method="POST" enctype="multipart/form-data">
+<form action="{{route ('admin.dashboard.update', $mod_doctor['id'])}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group mb-3">
@@ -17,12 +17,12 @@
         @error('description')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <textarea name="description" id="description" class="form-control" rows="5">{{old ('description') ?? $doctor->description }}</textarea>
+        <textarea name="description" id="description" class="form-control" rows="5">{{old ('description') ?? $mod_doctor->description }}</textarea>
     </div>
     <div class="form-group mb-3">
         <label for="address" class="form-label @error('address') is-invalid @enderror">Address</label>
 
-        <input type="text" name="address" id="address" class="form-control" value="{{old ('address') ?? $doctor->address }}">
+        <input type="text" name="address" id="address" class="form-control" value="{{old ('address') ?? $mod_doctor->address }}">
     </div>
     <div class="form-group mb-3">
         <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
@@ -33,7 +33,7 @@
     <div class="form-group mb-3">
         <label for="phone" class="form-label @error('phone') is-invalid @enderror">Phone Number</label>
 
-        <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}">
+        <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $mod_doctor->phone }}">
     </div>
 
     <div class="form-group mb-3">
@@ -63,7 +63,7 @@
                 name="specializations[]" 
                 value="{{$specialization->id}}"
                 id="specialization-checkbox-{{$specialization->id}}"
-                {{($doctor->specializations->contains($specialization)) ? 'checked' : ''}}>
+                {{($mod_doctor->specializations->contains($specialization)) ? 'checked' : ''}}>
     
             @endif
 

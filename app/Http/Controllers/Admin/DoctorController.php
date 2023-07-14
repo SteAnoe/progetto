@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Doctor;
+use App\Models\Admin\Specialization;
 use App\Models\User;
 
 class DoctorController extends Controller
@@ -30,7 +31,8 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $specializations = Specialization::all();
+        return view('admin.doctor.create', compact('specializations'));
     }
 
     /**
@@ -41,7 +43,42 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'curriculum_vitae' => 'nullable',
+                'description' => 'required|max:255',
+                'photo' => 'nullable|image',
+                'phone' => 'required|max:20',
+                'specializations' => 'exists:specializations,id'
+            ]
+        );
+
+        $form_data = $request->all();
+
+        // if($request->hasFile('img')){
+        //     $path = Storage::disk('public')->put('project_images', $request->img);
+        //     $form_data['img'] = $path;
+        // }
+
+
+        // $slug = Project::generateSlug($request->name);
+
+        // $form_data['slug'] = $slug;
+
+
+
+      
+        $new_doctor = new Doctor();
+        $form_data['user_id'] = Auth::user()->id;
+        $new_doctor->fill($form_data);
+        
+
+        $new_doctor->save();
+
+        if($request->has('specializations')){
+            $new_doctor->specializations()->attach($request->specializations);
+        };
+        return redirect()->route('admin.dashboard.index');
     }
 
     /**
@@ -52,7 +89,8 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        //
+
+        
     }
 
     /**
@@ -61,9 +99,11 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Doctor $doctor)
     {
-        //
+        $specializations = Specialization::all();
+        
+        return view('admin.doctor.edit', compact('specializations','doctor'));
     }
 
     /**

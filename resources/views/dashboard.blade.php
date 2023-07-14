@@ -23,8 +23,19 @@
 
                 <h3>{{$user->name}}</h3>
                 <p>{{$doctor->description}}</p>
+                <div>
+                    @if($doctor->specializations)
+                    @foreach($doctor->specializations as $elem)
+                    {{$elem->name}}
+                    @endforeach
+                    @endif
+                </div>
+
 
             </div>
+          <a href="{{route('admin.dashboard.create')}}">compila</a>
+          <a href="{{route('admin.dashboard.edit',$doctor)}}">modifica</a>
+
         </div>
     </div>
 </div>

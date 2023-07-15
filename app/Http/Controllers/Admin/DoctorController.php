@@ -20,7 +20,12 @@ class DoctorController extends Controller
     {
         $doctor = Doctor::where('user_id', Auth::user()->id)->first();
         $user = Auth::user();
-        return view('dashboard', compact('doctor', 'user'));
+        if ($doctor){
+            return view('admin.doctor.show', compact('doctor', 'user'));
+        }else{
+            return view('dashboard', compact('doctor', 'user'));
+        }
+        
         
     }
 
@@ -41,7 +46,7 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Doctor $doctor)
     {
         $request->validate(
             [
@@ -69,7 +74,9 @@ class DoctorController extends Controller
 
       
         $new_doctor = new Doctor();
+        
         $form_data['user_id'] = Auth::user()->id;
+        $new_doctor->id = $form_data['user_id'];
         $new_doctor->fill($form_data);
         
 
@@ -78,7 +85,7 @@ class DoctorController extends Controller
         if($request->has('specializations')){
             $new_doctor->specializations()->attach($request->specializations);
         };
-        return redirect()->route('admin.dashboard.index');
+        return redirect()->route('admin.dashboard.show', $new_doctor);
     }
 
     /**
@@ -87,10 +94,11 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, User $user)
     {
-
-        
+        $user = Auth::user();
+        $doctor = Doctor::findOrFail($id);
+        return view('admin.doctor.show', compact( 'doctor' , 'user' ));    
     }
 
     /**
@@ -102,8 +110,8 @@ class DoctorController extends Controller
     public function edit($id)
     {
         $specializations = Specialization::all();
-        $mod_doctor =  Doctor::findOrFail($id);
-        return view('admin.doctor.edit', compact('specializations','mod_doctor'));
+        $doctor =  Doctor::findOrFail($id);
+        return view('admin.doctor.edit', compact('specializations','doctor'));
     }
 
     /**
@@ -115,7 +123,28 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate(
+            [
+                'curriculum_vitae' => 'nullable',
+                'description' => 'required|max:255',
+                'photo' => 'nullable|image',
+                'phone' => 'required|max:20',
+                'specializations' => 'exists:specializations,id'
+            ]
+        );
+        $doctor =  Doctor::findOrFail($id);
+        $form_data = $request->all();
+        $form_data['user_id'] = Auth::user()->id;
+        $doctor->id = $form_data['user_id'];
+        $doctor->update($form_data);
+        
+
+        if($request->has('specializations')){
+            $doctor->specializations()->sync($request->specializations);
+        }elseif(!$request->has('specializations')){
+            $doctor->specializations()->sync([]);                
+        }
+        return redirect()->route('admin.dashboard.show', $doctor);
     }
 
     /**

@@ -52,7 +52,7 @@
         @endforeach
     </div>
 
-    <button class="btn btn-primary">Crea Project</button>
+    <button class="btn btn-primary">Crea doctor</button>
 </form>
     
 @endsection

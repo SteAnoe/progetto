@@ -18,9 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    public static function generateSlug($name)
+    public static function generateSlug($lastname)
     {
-        return  Str::slug($name, '-');
+        return  Str::slug($lastname);
     }
 
     protected $fillable = [

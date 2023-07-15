@@ -1,6 +1,6 @@
 @extends('layouts.app');
 @section('content')
-<h1>pag edit</h1>
+<h1>Modifica Profilo {{$user->lastname}}</h1>
 
 <form action="{{route ('admin.dashboard.update', $doctor['id'])}}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -13,6 +13,12 @@
         @enderror
         <input type="file" name="curriculum_vitae" id="curriculum_vitae" class="form-control">
     </div>
+    @if($doctor->curriculum_vitae)
+    <div>
+        <input type="checkbox" name="delete_cv" id="delete_cv">
+        <label for="delete_cv">Cancella il cv</label>
+    </div>
+    @endif
     <div class="form-group mb-3">
         <label for="description" class="form-label @error('description') is-invalid @enderror">Description</label>
         @error('description')
@@ -22,22 +28,37 @@
     </div>
     <div class="form-group mb-3">
         <label for="address" class="form-label @error('address') is-invalid @enderror">Address</label>
-
+        @error('address')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <input type="text" name="address" id="address" class="form-control" value="{{old ('address') ?? $doctor->address }}">
     </div>
     <div class="form-group mb-3">
         <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
-
+        @error('photo')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <input type="file" name="photo" id="photo" class="form-control">
     </div>
+    @if($doctor->photo)
+    <div>
+        <input type="checkbox" name="delete_photo" id="delete_photo">
+        <label for="delete_photo">Cancella la foto</label>
+    </div>
+    @endif
 
     <div class="form-group mb-3">
         <label for="phone" class="form-label @error('phone') is-invalid @enderror">Phone Number</label>
-
+        @error('phone')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}">
     </div>
 
     <div class="form-group mb-3">
+        @error('specializations')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         @foreach($specializations as $specialization)
         <div class="form-check">
             

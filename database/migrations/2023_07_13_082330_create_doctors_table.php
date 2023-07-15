@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('curriculum_vitae')->nullable();
             $table->text('photo')->nullable();
-            $table->string('phone')->nullable();
+            $table->unsignedBigInteger('phone')->nullable();
             $table->text('description')->required();
             $table->string('address')->required();
             $table->timestamps();

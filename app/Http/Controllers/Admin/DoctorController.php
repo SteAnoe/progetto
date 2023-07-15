@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Doctor;
 use App\Models\Admin\Specialization;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Storage;
 class DoctorController extends Controller
 {
     /**
@@ -36,8 +36,9 @@ class DoctorController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
         $specializations = Specialization::all();
-        return view('admin.doctor.create', compact('specializations'));
+        return view('admin.doctor.create', compact('specializations', 'user'));
     }
 
     /**
@@ -50,21 +51,28 @@ class DoctorController extends Controller
     {
         $request->validate(
             [
-                'curriculum_vitae' => 'nullable',
+                'curriculum_vitae' => 'nullable|mimes:pdf,jpeg,jpg',
                 'description' => 'required|max:255',
                 'photo' => 'nullable|image',
-                'phone' => 'required|max:20',
-                'specializations' => 'exists:specializations,id'
+                'phone' => 'required|numeric',
+                'specializations' => 'required|exists:specializations,id',
+                'address' => 'required'
+            ],
+            [
+                'specializations.required' => 'At least one specializations is required.'
             ]
         );
 
         $form_data = $request->all();
 
-        // if($request->hasFile('img')){
-        //     $path = Storage::disk('public')->put('project_images', $request->img);
-        //     $form_data['img'] = $path;
-        // }
-
+        if($request->hasFile('photo')){
+            $path_img = Storage::disk('public')->put('photo', $request->photo);
+            $form_data['photo'] = $path_img;
+        }
+        if($request->hasFile('curriculum_vitae')){
+            $path_cv = Storage::disk('public')->put('curriculum_vitae', $request->curriculum_vitae);
+            $form_data['curriculum_vitae'] = $path_cv;
+        }
 
         // $slug = Project::generateSlug($request->name);
 
@@ -109,9 +117,10 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
         $specializations = Specialization::all();
         $doctor =  Doctor::findOrFail($id);
-        return view('admin.doctor.edit', compact('specializations','doctor'));
+        return view('admin.doctor.edit', compact('specializations','doctor', 'user'));
     }
 
     /**
@@ -125,15 +134,45 @@ class DoctorController extends Controller
     {
         $request->validate(
             [
-                'curriculum_vitae' => 'nullable',
+                'curriculum_vitae' => 'nullable|mimes:pdf,jpeg,jpg',
                 'description' => 'required|max:255',
                 'photo' => 'nullable|image',
-                'phone' => 'required|max:20',
-                'specializations' => 'exists:specializations,id'
+                'phone' => 'required|numeric',
+                'specializations' => 'required|exists:specializations,id',
+                'address' => 'required'
+            ],
+            [
+                'specializations.required' => 'At least one specializations is required.'
             ]
         );
         $doctor =  Doctor::findOrFail($id);
         $form_data = $request->all();
+        if($request->hasFile('photo')){
+            if( $doctor->photo ){
+                Storage::delete($doctor->photo);
+            }
+            $path = Storage::disk('public')->put('photo', $request->photo);
+            $form_data['photo'] = $path;
+        }
+        if ($request->has('delete_photo')) {
+            if ($doctor->photo) {
+                Storage::delete($doctor->photo);
+                $doctor->photo = null;
+            }
+        }
+        if($request->hasFile('curriculum_vitae')){
+            if( $doctor->curriculum_vitae ){
+                Storage::delete($doctor->curriculum_vitae);
+            }
+            $path_cv = Storage::disk('public')->put('curriculum_vitae', $request->curriculum_vitae);
+            $form_data['curriculum_vitae'] = $path_cv;
+        }
+        if ($request->has('delete_cv')) {
+            if ($doctor->curriculum_vitae) {
+                Storage::delete($doctor->curriculum_vitae);
+                $doctor->curriculum_vitae = null;
+            }
+        }
         $form_data['user_id'] = Auth::user()->id;
         $doctor->id = $form_data['user_id'];
         $doctor->update($form_data);

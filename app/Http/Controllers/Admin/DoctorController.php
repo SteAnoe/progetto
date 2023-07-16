@@ -78,7 +78,10 @@ class DoctorController extends Controller
         if($request->has('specializations')){
             $new_doctor->specializations()->attach($request->specializations);
         };
-        return redirect()->route('admin.dashboard.index');
+        //return redirect()->route('admin.dashboard.index');
+        return redirect()->route('admin.dashboard.show',$new_doctor);
+       
+
     }
 
     /**
@@ -88,9 +91,11 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {    $doctor = Doctor::where('user_id', Auth::user()->id)->first();
+        $user = Auth::user();
 
-        
+        $showDoctor =  Doctor::findOrFail($id);
+        return view('admin.doctor.show', compact('showDoctor','user'));
     }
 
     /**
@@ -116,6 +121,31 @@ class DoctorController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate(
+            [
+                'curriculum_vitae' => 'nullable',
+                'description' => 'required|max:255',
+                'photo' => 'nullable|image',
+                'phone' => 'required|max:20',
+                'specializations' => 'exists:specializations,id'
+            ]
+        );
+        $form_data = $request->all();
+        $specializations = Specialization::all();
+        $mod_doctor =  Doctor::findOrFail($id);
+        $mod_doctor->update($form_data);
+
+        if( $request->has('specializations') ){
+           
+            $mod_doctor->specializations()->sync($request->specializations);
+           }
+              
+        else{
+           
+            $mod_doctor ->specializations()->sync([]);
+           }
+           return redirect()->route('admin.dashboard.show',$mod_doctor);
+           //return ( 'admin.doctor.show');
     }
 
     /**
@@ -127,5 +157,13 @@ class DoctorController extends Controller
     public function destroy($id)
     {
         //
+        $mod_doctor =  Doctor::findOrFail($id);
+        $mod_doctor->specializations()->sync([]);
+
+        // if( $mod_post->image) {
+        //     Storage::delete($mod_post->image);
+        //      }
+        $mod_doctor->delete();
+        return redirect()->route('admin.dashboard.index');
     }
 }

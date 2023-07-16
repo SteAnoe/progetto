@@ -20,21 +20,26 @@
                     {{ __('You are logged in!') }}
                 </div>
 
+                <h1>Benvenuto</h1>
+                <h2>{{$user->name}}</h2>
+                @if ( $doctor = $user->doctor)
 
-                <h3>{{$user->name}}</h3>
-                <p>{{$doctor->description}}</p>
-                <div>
-                    @if($doctor->specializations)
-                    @foreach($doctor->specializations as $elem)
-                    {{$elem->name}}
-                    @endforeach
-                    @endif
-                </div>
-
-
+                    <p>{{$doctor->description}}</p>
+                    <div>
+                        @if($doctor->specializations)
+                        @foreach($doctor->specializations as $elem)
+                        {{$elem->name}}
+                        @endforeach
+                        @endif
+                    </div>
+                @endif
+                  
             </div>
-          <a href="{{route('admin.dashboard.create')}}">compila</a>
-          <a href="{{route('admin.dashboard.edit',$doctor)}}">modifica</a>
+            @if($doctor)
+            <a class="btn btn-warning" href="{{route('admin.dashboard.edit',$doctor)}}">modifica il tuo profilo</a>
+            @else
+          <a class="btn btn-primary" href="{{route('admin.dashboard.create')}}">completa il tuo profilo</a>
+          @endif
 
         </div>
     </div>

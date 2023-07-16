@@ -79,7 +79,7 @@ class DoctorController extends Controller
             $new_doctor->specializations()->attach($request->specializations);
         };
         //return redirect()->route('admin.dashboard.index');
-        return redirect()->route('admin.dashboard.show',$new_doctor);
+        return redirect()->route('admin.dashboard.index',$new_doctor);
        
 
     }
@@ -144,7 +144,7 @@ class DoctorController extends Controller
            
             $mod_doctor ->specializations()->sync([]);
            }
-           return redirect()->route('admin.dashboard.show',$mod_doctor);
+           return redirect()->route('admin.dashboard.index',$mod_doctor);
            //return ( 'admin.doctor.show');
     }
 

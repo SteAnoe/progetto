@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Doctor;
 use App\Models\Admin\Specialization;
 use App\Models\User;
+use App\Models\Admin\Message;
+use App\Models\Admin\Review;
 use Illuminate\Support\Facades\Storage;
 class DoctorController extends Controller
 {
@@ -102,11 +104,13 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, User $user)
+    public function show($id, User $user , Message $message , Review $review)
     {
         $user = Auth::user();
         $doctor = Doctor::findOrFail($id);
-        return view('admin.doctor.show', compact( 'doctor' , 'user' ));    
+        $messages = Message::all();
+        $reviews = Review::all();
+        return view('admin.doctor.show', compact( 'doctor' , 'user' , 'messages' , 'reviews'));    
     }
 
     /**

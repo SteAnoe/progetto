@@ -74,6 +74,33 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="address" class="form-label @error('address') is-invalid @enderror">Address</label>
+                            @error('address')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            <input type="text" name="address" id="address" class="form-control">
+                        </div>
+                        <div class="form-group mb-3">
+                            @error('specializations')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            @foreach($specializations as $specialization)
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    name="specializations[]" 
+                                    value="{{$specialization->id}}"
+                                    id="specialization-checkbox-{{$specialization->id}}">
+
+                                <label class="form-check-label" for="specialization-checkbox-{{$specialization->id}}">
+                                {{$specialization->name}}
+                                </label>
+                            </div>
+                            @endforeach
+
+                        </div>
 
                         <div class="mb-4 row mb-0">
                             <div class="col-md-6 offset-md-4">

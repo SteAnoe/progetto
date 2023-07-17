@@ -6,7 +6,7 @@
     <div class="card-body">
         <h5 class="card-title">{{$user->name}} {{$user->lastname}}</h5>
         <p class="card-text">Description: <br>{{$doctor->description}}</p>
-        <p class="card-text">Address: {{$doctor->address}}</p>
+        <p class="card-text">Address: {{$user->address}}</p>
         <p class="card-text">Phone: {{$doctor->phone}}</p>
         @if ($doctor->curriculum_vitae)
             <p class="card-text">CV/{{$user->name}}-{{$user->lastname}} caricato correttamente</p>
@@ -25,6 +25,11 @@
         </div>
         @endif
         <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-primary">Modifica Profilo</a>
+        <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST" onclick="return confirm('Are you sure you want to delete this project?')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
     </div>
 </div>
 <div class="row">

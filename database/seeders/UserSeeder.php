@@ -25,13 +25,13 @@ class UserSeeder extends Seeder
             $newUser->lastname = $faker->unique()->lastName;
             $newUser->email = $faker->unique()->email;
             $newUser->password = Hash::make('password');
+            $newUser->address = $faker->unique()->address;
             $newUser->slug = Str::slug($newUser->name .'-'. $newUser->lastname);
             $newUser->save();
 
             $newDoctor = new Doctor();
             $newDoctor->user_id = $newUser->id;
             $newDoctor->phone = $faker->numerify('##########');
-            $newDoctor->address = $faker->address;
             $newDoctor->curriculum_vitae = 'curriculm.jpeg';
             $newDoctor->photo = 'doctor-login.png';
             $newDoctor->description = $faker->paragraph;

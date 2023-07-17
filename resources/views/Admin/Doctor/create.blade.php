@@ -19,13 +19,6 @@
         <textarea name="description" id="description" class="form-control" rows="5"></textarea>
     </div>
     <div class="form-group mb-3">
-        <label for="address" class="form-label @error('address') is-invalid @enderror">Address</label>
-        @error('address')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <input type="text" name="address" id="address" class="form-control">
-    </div>
-    <div class="form-group mb-3">
         <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
         @error('photo')
         <div class="alert alert-danger">{{ $message }}</div>

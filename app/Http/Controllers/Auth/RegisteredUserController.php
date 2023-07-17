@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Admin\Doctor;
+use App\Models\Admin\Specialization;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +22,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $specializations = Specialization::all();
+        return view('auth.register', compact('specializations'));
     }
 
     /**
@@ -35,6 +38,11 @@ class RegisteredUserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'specializations' => 'required|exists:specializations,id',
+            'address' => 'required'
+        ],
+        [
+            'specializations.required' => 'At least one specializations is required.'
         ]);
 
         $user = User::create([
@@ -45,13 +53,32 @@ class RegisteredUserController extends Controller
             $slug = User::generateSlug($request->lastname),
 
            'slug' => $slug,
-
+           'address' => $request->address,
         
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
+
+        $doctor = Doctor::create([
+            'user_id' => Auth::user()->id,
+        ]);
+
+        // $form_data = $request->all();
+        // $new_doctor = new Doctor();
+        
+        // $form_data['user_id'] = Auth::user()->id;
+        // $new_doctor->id = $form_data['user_id'];
+        // $new_doctor->fill($form_data);
+        // $new_doctor->save();
+        
+        if($request->has('specializations')){
+            $doctor->specializations()->attach($request->specializations);
+        };
+
+        
+
+        
 
         return redirect(RouteServiceProvider::HOME);
     }

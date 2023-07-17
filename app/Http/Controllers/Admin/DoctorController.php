@@ -58,7 +58,6 @@ class DoctorController extends Controller
                 'photo' => 'nullable|image',
                 'phone' => 'required|numeric',
                 'specializations' => 'required|exists:specializations,id',
-                'address' => 'required'
             ],
             [
                 'specializations.required' => 'At least one specializations is required.'
@@ -89,7 +88,6 @@ class DoctorController extends Controller
         $new_doctor->id = $form_data['user_id'];
         $new_doctor->fill($form_data);
         
-
         $new_doctor->save();
 
         if($request->has('specializations')){
@@ -198,6 +196,11 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doctor =  Doctor::findOrFail($id);
+        $user = Auth::user();
+        $doctor->delete();
+        $doctor->specializations()->sync([]);
+        return view('dashboard', compact('doctor', 'user'));
+    
     }
 }

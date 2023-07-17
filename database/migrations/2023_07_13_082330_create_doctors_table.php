@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('curriculum_vitae')->nullable();
             $table->text('photo')->nullable();
             $table->unsignedBigInteger('phone')->nullable();
-            $table->text('description')->required();
-            $table->string('address')->required();
+            $table->text('description')->nullable();
+            
             $table->timestamps();
         });
     }

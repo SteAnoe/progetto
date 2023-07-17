@@ -67,6 +67,16 @@
                 @endif
             </div>
             @endif
+
+            <div class="mb-2">
+            <label for="address">{{__('Address')}}</label>
+            <input class="form-control" type="text" name="address" id="address" autocomplete="address" value="{{old('address', $user->address)}}" required autofocus>
+            @error('address')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->get('address')}}</strong>
+            </span>
+            @enderror
+        </div>
         </div>
 
         <div class="d-flex align-items-center gap-4">

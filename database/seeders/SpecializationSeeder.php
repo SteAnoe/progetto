@@ -19,7 +19,7 @@ class SpecializationSeeder extends Seeder
         $specializations = [
             'Medicina-Interna',
             'Chirurgia',
-            'Gereatria',
+            'Geriatria',
             'Oncologia',
             'Dermatologia',
             'Ematologia',

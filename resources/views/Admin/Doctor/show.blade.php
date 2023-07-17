@@ -2,14 +2,17 @@
 @section('content')
 <h1>Benvenuto Dr./Drs. {{$user->lastname}}!</h1>
 <div class="card" style="width: 18rem;">
-    <img class="img-fluid" src="{{asset('storage/' . $doctor->photo)}}" alt="">
+    <a href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
+      <img class="img-fluid" src="{{ asset('storage/' . $doctor->photo) }}" alt="">
+    </a>
     <div class="card-body">
         <h5 class="card-title">{{$user->name}} {{$user->lastname}}</h5>
         <p class="card-text">Description: <br>{{$doctor->description}}</p>
         <p class="card-text">Address: {{$user->address}}</p>
         <p class="card-text">Phone: {{$doctor->phone}}</p>
         @if ($doctor->curriculum_vitae)
-            <p class="card-text">CV/{{$user->name}}-{{$user->lastname}} caricato correttamente</p>
+            CV:
+            <a href="{{ asset('storage/' . $doctor->curriculum_vitae) }}" target="_blank">Preview</a>
         @endif
         @if ($doctor->specializations)
         <div>
@@ -25,7 +28,7 @@
         </div>
         @endif
         <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-primary">Modifica Profilo</a>
-        <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST" onclick="return confirm('Are you sure you want to delete this project?')">
+        <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST" onclick="return confirm('Are you sure you want to delete your profile?')">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger">Delete</button>

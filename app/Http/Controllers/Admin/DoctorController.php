@@ -141,12 +141,13 @@ class DoctorController extends Controller
                 'photo' => 'nullable|image',
                 'phone' => 'required|numeric',
                 'specializations' => 'required|exists:specializations,id',
-                'address' => 'required'
+                
             ],
             [
                 'specializations.required' => 'At least one specializations is required.'
             ]
         );
+
         $doctor =  Doctor::findOrFail($id);
         $form_data = $request->all();
         if($request->hasFile('photo')){

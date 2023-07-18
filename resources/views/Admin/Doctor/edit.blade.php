@@ -16,7 +16,7 @@
     </div>
     @if($doctor->curriculum_vitae)
     <div>
-        <input type="checkbox" name="delete_cv" id="delete_cv">
+        <input type="checkbox" name="delete_cv" id="delete_cv" onclick="toggleInput()">
         <label for="delete_cv">Cancella il cv</label>
     </div>
     @endif
@@ -33,12 +33,12 @@
         @error('photo')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <input type="file" name="photo" id="photo" class="form-control" accept=".png, .jpg, .jpeg, .gif">
+        <input type="file" name="photo" id="photo" class="form-control" accept=".png, .jpg, .jpeg, .gif" >
         <div class="invalid-feedback" id="photo-feedback"></div>
     </div>
     @if($doctor->photo)
     <div>
-        <input type="checkbox" name="delete_photo" id="delete_photo">
+        <input type="checkbox" name="delete_photo" id="delete_photo" onclick="toggleInputImg()">
         <label for="delete_photo">Cancella la foto</label>
     </div>
     @endif
@@ -166,6 +166,28 @@ document.querySelector('#form').addEventListener('submit', function(event) {
             document.getElementById('photo-feedback').textContent = '';
         }
     });
+
+    function toggleInput() {
+    const cvInput = document.getElementById("curriculum_vitae");
+    const deleteCVCheckbox = document.getElementById("delete_cv");
+
+    if (deleteCVCheckbox.checked) {
+        cvInput.setAttribute("disabled","disabled");
+    } else {
+        cvInput.removeAttribute("disabled");
+    }
+ }
+ function toggleInputImg() {
+    const imgInput = document.getElementById("photo");
+    const deleteImgCheckbox = document.getElementById("delete_photo");
+
+    if (deleteImgCheckbox.checked) {
+        imgInput.setAttribute("disabled","disabled");
+    } else {
+        imgInput.removeAttribute("disabled");
+    }
+ }
+
 //     Funzione per bloccare tutto tranne numeri
 //     document.getElementById('phone').addEventListener('input', function(event) {
 //         const input = event.target;

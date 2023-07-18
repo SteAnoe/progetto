@@ -22,14 +22,20 @@ class DoctorController extends Controller
     {
         $doctor = Doctor::where('user_id', Auth::user()->id)->first();
         $user = Auth::user();
-        if ($doctor){
-            return view('admin.doctor.show', compact('doctor', 'user'));
-        }else{
-            return view('dashboard', compact('doctor', 'user'));
+        if ($user->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+            if ($doctor){
+                return view('admin.doctor.show', compact('doctor', 'user'));
+            }else{
+                return view('dashboard', compact('doctor', 'user'));
+            }
         }
-        
-        
     }
+        
+        
+        
+    
 
     /**
      * Show the form for creating a new resource.
@@ -40,7 +46,12 @@ class DoctorController extends Controller
     {
         $user = Auth::user();
         $specializations = Specialization::all();
-        return view('admin.doctor.create', compact('specializations', 'user'));
+        if ($user->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+            return view('admin.doctor.create', compact('specializations', 'user'));
+        }
+        
     }
 
     /**
@@ -75,13 +86,6 @@ class DoctorController extends Controller
             $form_data['curriculum_vitae'] = $path_cv;
         }
 
-        // $slug = Project::generateSlug($request->name);
-
-        // $form_data['slug'] = $slug;
-
-
-
-      
         $new_doctor = new Doctor();
         
         $form_data['user_id'] = Auth::user()->id;
@@ -93,7 +97,12 @@ class DoctorController extends Controller
         if($request->has('specializations')){
             $new_doctor->specializations()->attach($request->specializations);
         };
-        return redirect()->route('admin.dashboard.show', $new_doctor);
+        if ($new_doctor->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+            return redirect()->route('admin.dashboard.show', $new_doctor);
+        }
+        
     }
 
     /**
@@ -102,14 +111,20 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, User $user , Message $message , Review $review)
+    public function show($id, User $user , Message $message , Review $review, Doctor $doctor)
     {
+        
         $user = Auth::user();
         $doctor = Doctor::findOrFail($id);
         $messages = Message::all();
         $reviews = Review::all();
-        return view('admin.doctor.show', compact( 'doctor' , 'user' , 'messages' , 'reviews'));    
-    }
+        if ($doctor->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+            return view('admin.doctor.show', compact( 'doctor' , 'user' , 'messages' , 'reviews'));    
+        }
+        }
+        
 
     /**
      * Show the form for editing the specified resource.
@@ -122,7 +137,12 @@ class DoctorController extends Controller
         $user = Auth::user();
         $specializations = Specialization::all();
         $doctor =  Doctor::findOrFail($id);
-        return view('admin.doctor.edit', compact('specializations','doctor', 'user'));
+        if ($doctor->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+            return view('admin.doctor.edit', compact('specializations','doctor', 'user'));    
+        }
+        
     }
 
     /**
@@ -186,7 +206,12 @@ class DoctorController extends Controller
         }elseif(!$request->has('specializations')){
             $doctor->specializations()->sync([]);                
         }
-        return redirect()->route('admin.dashboard.show', $doctor);
+        if ($doctor->id !== auth()->user()->id) {
+            abort(403, "Non hai il permesso di visualizzare questo profilo.");
+        } else {
+             return redirect()->route('admin.dashboard.show', $doctor);
+        }
+        
     }
 
     /**

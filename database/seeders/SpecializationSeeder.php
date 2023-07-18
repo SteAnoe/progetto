@@ -31,6 +31,7 @@ class SpecializationSeeder extends Seeder
             'Ginecologia',
             'Ortopedia',
             'Radioterapia',
+            'Urologia',
         ];
         foreach($specializations as $specialization){
             $newSpecialization = new Specialization();

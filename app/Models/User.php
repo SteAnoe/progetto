@@ -18,10 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    public static function generateSlug($lastname)
-    {
-        return  Str::slug($lastname);
-    }
+     public static function generateSlug($lastname, $name)
+     {
+        $fullName = $lastname . ' - ' . $name;
+        return Str::slug($fullName);
+     }
 
     protected $fillable = [
         'name',

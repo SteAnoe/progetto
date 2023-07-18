@@ -1,7 +1,7 @@
 @extends('layouts.app');
 @section('content')
 <h1>Creazione Profilo {{$user->lastname}}</h1>
-
+<footer></footer>
 <form id="form" action="{{route ('admin.dashboard.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group mb-3">
@@ -9,7 +9,8 @@
         @error('curriculum_vitae')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <input type="file" name="curriculum_vitae" id="curriculum_vitae" class="form-control">
+        <input type="file" name="curriculum_vitae" id="curriculum_vitae" class="form-control" accept=".pdf, .jpg, .jpeg">
+        <div class="invalid-feedback" id="curriculum_vitae-feedback"></div>
     </div>
     <div class="form-group mb-3">
         <label for="description" class="form-label @error('description') is-invalid @enderror">Description</label>
@@ -24,7 +25,8 @@
         @error('photo')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <input type="file" name="photo" id="photo" class="form-control">
+        <input type="file" name="photo" id="photo" class="form-control" accept=".png, .jpg, .jpeg, .gif">
+        <div class="invalid-feedback" id="photo-feedback"></div>
     </div>
 
     <div class="form-group mb-3">
@@ -105,6 +107,30 @@ document.querySelector('#form').addEventListener('submit', function(event) {
         event.target.submit();
     }
 });
+    document.getElementById('curriculum_vitae').addEventListener('change', function(event) {        
+        const input = event.target;
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+
+        if (!allowedTypes.includes(input.files[0].type)) {
+            input.classList.add('is-invalid');
+            document.getElementById('curriculum_vitae-feedback').textContent = 'Please upload a PDF, JPG, or JPEG file.';
+        } else {
+            input.classList.remove('is-invalid');
+            document.getElementById('curriculum_vitae-feedback').textContent = '';
+        }
+    });
+    document.getElementById('photo').addEventListener('change', function(event) {        
+        const inputImg = event.target;
+        const allowedTypesImg = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+
+        if (!allowedTypesImg.includes(inputImg.files[0].type)) {
+            inputImg.classList.add('is-invalid');
+            document.getElementById('photo-feedback').textContent = 'Please upload a PNG, JPG, JPEG or GIF file.';
+        } else {
+            inputImg.classList.remove('is-invalid');
+            document.getElementById('photo-feedback').textContent = '';
+        }
+    });
 
 //     Funzione per bloccare tutto tranne numeri
 //     document.getElementById('phone').addEventListener('input', function(event) {

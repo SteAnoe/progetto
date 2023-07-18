@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +40,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::resource('/dashboard', DoctorController::class);
+    Route::resource('/dashboard', DoctorController::class)->parameters(
+        [
+            'user' => 'user:slug'
+        ]);
     
 });
 

@@ -45,15 +45,16 @@ class RegisteredUserController extends Controller
             'specializations.required' => 'At least one specializations is required.'
         ]);
 
+        $lastname = $request->lastname;
+        $name = $request->name;
+        $slug = User::generateSlug($lastname, $name);
         $user = User::create([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            $slug = User::generateSlug($request->lastname),
-
-           'slug' => $slug,
-           'address' => $request->address,
+            'slug' => $slug,
+            'address' => $request->address,
         
         ]);
 
@@ -81,5 +82,6 @@ class RegisteredUserController extends Controller
         
 
         return redirect(RouteServiceProvider::HOME);
+        
     }
 }

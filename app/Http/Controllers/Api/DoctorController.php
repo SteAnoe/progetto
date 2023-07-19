@@ -12,32 +12,27 @@ use App\Models\User;
 class DoctorController extends Controller
 {
     //
-    public function index(){
-        $doctors = Doctor::all();
-        $users = User::all()->toArray();
-        $specializations = Specialization::all()->toArray();
+    public function index(Request $request){
+        
+        
+        $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
+                ->select('doctors.*', 'users.name', 'users.lastname', 'users.email', 'users.address')
+                ->with('specializations');
 
-        return response()->json(
-            [
-                'success' => true,
-                'doctors' => $doctors,
-                // ['doctors' => $doctors,'users' => $users,'specializations'=> $specializations]
-                
-                
-            ]
-        );
+        if ($request->has('specializations_ids')) {
+            $specializationsIds = explode(',', $request->specializations_ids);
+            $query->whereHas('specializations', function ($query) use ($specializationsIds) {
+                $query->whereIn('id', $specializationsIds);
+            });
+        }
 
-        // $queryDoctors = Doctor::with(['reviews','technologies']);
-        // if ($request->has('type_id')){
-        //     $query->where('type_id', $request->type_id);
-        // }
-        // if($request->has('technologies_ids')){
-        //     $technologyIds = explode(',', $request->technologies_ids);
-        //     $query->whereHas('technologies', function($query) use ($technologyIds){
-        //         $query->whereIn('id', $technologyIds);
-        //     });
-        // }
+        $doctors = $query->get();
 
+        return response()->json([
+            'success' => true,
+            'doctors' => $doctors,
+        ]);
+       
         // $projects = $query->paginate(3);
         //     return response()->json([
         //     'success' => true,

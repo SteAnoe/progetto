@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use App\Models\User;
 use App\Models\Admin\Doctor;
-
+use App\Models\Admin\Specialization;
 class UserSeeder extends Seeder
 {
     /**
@@ -18,7 +18,9 @@ class UserSeeder extends Seeder
      * @return void
      */
     public function run(Faker $faker)
-    {
+    {   
+        $specializations = Specialization::all();
+        
         for($i = 1; $i <= 30; $i++) {
             $newUser = new User();
             $newUser->name = $faker->unique()->firstName;
@@ -36,6 +38,13 @@ class UserSeeder extends Seeder
             $newDoctor->photo = 'doctor-login.png';
             $newDoctor->description = $faker->paragraph;
             $newDoctor->save();
+        
+            
+
+            $numSpecializations = $faker->numberBetween(1, 2);
+
+            $randomSpecializations = $specializations->random($numSpecializations);
+            $newDoctor->specializations()->attach($randomSpecializations);
     }
 }
 }

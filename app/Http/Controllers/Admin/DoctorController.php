@@ -65,9 +65,9 @@ class DoctorController extends Controller
         $request->validate(
             [
                 'curriculum_vitae' => 'nullable|mimes:pdf,jpeg,jpg',
-                'description' => 'required|max:255',
+                'description' => 'required|max:500',
                 'photo' => 'nullable|image',
-                'phone' => 'required|numeric',
+                'phone' => 'required|numeric|digits_between:7,10',
                 'specializations' => 'required|exists:specializations,id',
             ],
             [
@@ -157,14 +157,14 @@ class DoctorController extends Controller
         $request->validate(
             [
                 'curriculum_vitae' => 'nullable|mimes:pdf,jpeg,jpg',
-                'description' => 'required|max:255',
+                'description' => 'required|max:500',
                 'photo' => 'nullable|image',
-                'phone' => 'required|numeric',
+                'phone' => 'required|numeric|digits_between:7,10',
                 'specializations' => 'required|exists:specializations,id',
                 
             ],
             [
-                'specializations.required' => 'At least one specializations is required.'
+                'specializations.required' => 'At least one specializations is required.',
             ]
         );
 

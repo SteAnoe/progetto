@@ -25,8 +25,9 @@
         @error('description')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <textarea name="description" id="description" class="form-control" rows="5">{{old ('description') ?? $doctor->description }}</textarea>
+        <textarea name="description" id="description" class="form-control" rows="5" maxlength="500" placeholder="Describe yourself and your performances...">{{old ('description') ?? $doctor->description }}</textarea>
         <div class="invalid-feedback" id="description-feedback"></div>
+        <div id="counter" class="text-muted"></div>
     </div>
     <div class="form-group mb-3">
         <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
@@ -48,7 +49,7 @@
         @error('phone')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}" pattern="\d*" title="Please enter only numbers">
+        <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}" placeholder="Insert your phone number">
         <div class="invalid-feedback" id="phone-feedback"></div>
     </div>
 
@@ -56,6 +57,7 @@
         @error('specializations')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+        <h4>Specializations</h4>
         <div class="invalid-feedback" id="specializations-feedback"></div>
         @foreach($specializations as $specialization)
         <div class="form-check">
@@ -106,8 +108,8 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     event.preventDefault();
  
     function validateField(inputId, feedbackId, errorMessage) {
-        const inputField = document.getElementById(inputId);
-        const feedbackField = document.getElementById(feedbackId);
+        let inputField = document.getElementById(inputId);
+        let feedbackField = document.getElementById(feedbackId);
         if (inputField.value.trim() === '') {
             inputField.classList.add('is-invalid');
             feedbackField.textContent = errorMessage;
@@ -124,10 +126,32 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     isValid &= validateField('phone', 'phone-feedback', 'Phone is required.');
     isValid &= checkSpecializations();
 
+    let phoneInput = document.getElementById('phone');
+    let phoneFeedback = document.getElementById('phone-feedback');
+    let phoneValue = phoneInput.value.trim();
+    let numberRegex = /^\d+$/;
+    
+    if (phoneValue.length > 10) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should not exceed 10 digits.';
+        isValid = false;
+    } else if (phoneValue.length < 7) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should have at least 7 digits.';
+        isValid = false;
+    } else if (!numberRegex.test(phoneValue)) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should contain only digits.';
+        isValid = false;
+    } else {
+        phoneInput.classList.remove('is-invalid');
+        phoneFeedback.textContent = '';
+    }
+
     function checkSpecializations() {
-        const specializationCheckboxes = document.querySelectorAll('input[name="specializations[]"]');
-        const feedbackField = document.getElementById('specializations-feedback');
-        const isAnySpecializationChecked = Array.from(specializationCheckboxes).some(cb => cb.checked);
+        let specializationCheckboxes = document.querySelectorAll('input[name="specializations[]"]');
+        let feedbackField = document.getElementById('specializations-feedback');
+        let isAnySpecializationChecked = Array.from(specializationCheckboxes).some(cb => cb.checked);
         if (!isAnySpecializationChecked) {
             feedbackField.textContent = 'Please select at least one specialization.';
             feedbackField.style.display = 'block';
@@ -142,9 +166,10 @@ document.querySelector('#form').addEventListener('submit', function(event) {
         event.target.submit();
     }
 });
+
     document.getElementById('curriculum_vitae').addEventListener('change', function(event) {    
-        const input = event.target;
-        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+        let input = event.target;
+        let allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
 
         if (!allowedTypes.includes(input.files[0].type)) {
             input.classList.add('is-invalid');
@@ -155,8 +180,8 @@ document.querySelector('#form').addEventListener('submit', function(event) {
         }
     });
     document.getElementById('photo').addEventListener('change', function(event) {        
-        const inputImg = event.target;
-        const allowedTypesImg = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        let inputImg = event.target;
+        let allowedTypesImg = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
 
         if (!allowedTypesImg.includes(inputImg.files[0].type)) {
             inputImg.classList.add('is-invalid');
@@ -168,8 +193,8 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     });
 
     function toggleInput() {
-    const cvInput = document.getElementById("curriculum_vitae");
-    const deleteCVCheckbox = document.getElementById("delete_cv");
+    let cvInput = document.getElementById("curriculum_vitae");
+    let deleteCVCheckbox = document.getElementById("delete_cv");
 
     if (deleteCVCheckbox.checked) {
         cvInput.setAttribute("disabled","disabled");
@@ -178,8 +203,8 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     }
  }
  function toggleInputImg() {
-    const imgInput = document.getElementById("photo");
-    const deleteImgCheckbox = document.getElementById("delete_photo");
+    let imgInput = document.getElementById("photo");
+    let deleteImgCheckbox = document.getElementById("delete_photo");
 
     if (deleteImgCheckbox.checked) {
         imgInput.setAttribute("disabled","disabled");
@@ -188,12 +213,24 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     }
  }
 
-//     Funzione per bloccare tutto tranne numeri
-//     document.getElementById('phone').addEventListener('input', function(event) {
-//         const input = event.target;
-//         const cleanedValue = input.value.replace(/\D/g, ''); // Remove all non-numeric characters
-//         input.value = cleanedValue;
-//     });
+let descriptionInput = document.getElementById("description");
+let counterElement = document.getElementById("counter");
+let maxLength = 500;
+
+descriptionInput.addEventListener("input", updateCounter);
+
+function updateCounter() {
+  let description = descriptionInput.value;
+  let remainingCharacters = maxLength - description.length;
+
+  counterElement.innerText = remainingCharacters + "/" + maxLength;
+
+  if (description.length > maxLength) {
+    descriptionInput.classList.add("is-invalid");
+  } else {
+    descriptionInput.classList.remove("is-invalid");
+  }
+}
     
 </script>
 @endsection

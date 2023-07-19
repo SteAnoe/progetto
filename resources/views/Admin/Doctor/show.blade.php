@@ -7,9 +7,13 @@
     </a>
     <div class="card-body">
         <h5 class="card-title">{{$user->name}} {{$user->lastname}}</h5>
-        <p class="card-text">Description: <br>{{$doctor->description}}</p>
+        @if($doctor->description)
+            <p class="card-text">Description: <br>{{$doctor->description}}</p>
+        @endif
         <p class="card-text">Address: {{$user->address}}</p>
-        <p class="card-text">Phone: {{$doctor->phone}}</p>
+        @if($doctor->phone)
+            <p class="card-text">Phone: {{$doctor->phone}}</p>
+        @endif
         @if ($doctor->curriculum_vitae)
             CV:
             <a href="{{ asset('storage/' . $doctor->curriculum_vitae) }}" target="_blank">Preview</a>

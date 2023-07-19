@@ -15,7 +15,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
+                                <input id="name" type="text" onblur="capitalizeFirstLetter('name')" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
                                 <div class="invalid-feedback" id="name-feedback"></div>
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -29,7 +29,7 @@
                             <label for="lastname" class="col-md-4 col-form-label text-md-right">{{ __('Lastname') }}</label>
 
                             <div class="col-md-6">
-                                <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}"  autocomplete="lastname" autofocus>
+                                <input id="lastname" type="text" onblur="capitalizeFirstLetter('lastname')" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}"  autocomplete="lastname" autofocus>
                                 <div class="invalid-feedback" id="lastname-feedback"></div>
                                 @error('lastname')
                                 <span class="invalid-feedback" role="alert">
@@ -83,7 +83,7 @@
                         <div class="mb-4 row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>                            
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror"  name="address" >
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" placeholder="Es. Via/Piazza Roma 15" name="address" >
                                 <div class="invalid-feedback" id="address-feedback"></div>
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -97,6 +97,7 @@
                             @error('specializations')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                            <h4>Specializations</h4>
                             <div class="invalid-feedback" id="specializations-feedback"></div>
                             
                             @foreach($specializations as $specialization)
@@ -196,6 +197,19 @@
             
             confirmPasswordInput.classList.remove('is-valid');
             confirmPasswordInput.classList.add('is-invalid');
+        }
+    }
+
+    function capitalizeFirstLetter(inputId){
+        const inputField = document.getElementById(inputId);
+        const inputValue = inputField.value.trim();
+
+        if (inputValue !== "") {
+            const words = inputValue.split(" ");
+            const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+            const capitalizedValue = capitalizedWords.join(" ");
+
+            inputField.value = capitalizedValue;
         }
     }
 

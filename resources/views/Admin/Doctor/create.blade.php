@@ -17,8 +17,9 @@
         @error('description')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <textarea name="description" id="description" class="form-control" rows="5"></textarea>
+        <textarea name="description" id="description" class="form-control" rows="5" maxlength="500" placeholder="Describe yourself and your performances..."></textarea>
         <div class="invalid-feedback" id="description-feedback"></div>
+        <div id="counter" class="text-muted"></div>
     </div>
     <div class="form-group mb-3">
         <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
@@ -34,7 +35,7 @@
         @error('phone')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <input type="text" name="phone" id="phone" class="form-control" pattern="\d*" title="Please enter only numbers">
+        <input type="text" name="phone" id="phone" class="form-control" placeholder="Insert your phone number">
         <div class="invalid-feedback" id="phone-feedback"></div>
     </div>
 
@@ -42,6 +43,7 @@
         @error('specializations')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+        <h4>Specializations</h4>
         <div class="invalid-feedback" id="specializations-feedback"></div>
         @foreach($specializations as $specialization)
         <div class="form-check">
@@ -89,6 +91,29 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     isValid &= validateField('phone', 'phone-feedback', 'Phone is required.');
     isValid &= checkSpecializations();
 
+    let phoneInput = document.getElementById('phone');
+    let phoneFeedback = document.getElementById('phone-feedback');
+    let phoneValue = phoneInput.value.trim();
+    let numberRegex = /^\d+$/;
+    
+    if (phoneValue.length > 10) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should not exceed 10 digits.';
+        isValid = false;
+    } else if (phoneValue.length < 7) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should have at least 7 digits.';
+        isValid = false;
+    } else if (!numberRegex.test(phoneValue)) {
+        phoneInput.classList.add('is-invalid');
+        phoneFeedback.textContent = 'Phone number should contain only digits.';
+        isValid = false;
+    } else {
+        phoneInput.classList.remove('is-invalid');
+        phoneFeedback.textContent = '';
+    }
+
+
     function checkSpecializations() {
         const specializationCheckboxes = document.querySelectorAll('input[name="specializations[]"]');
         const feedbackField = document.getElementById('specializations-feedback');
@@ -132,12 +157,24 @@ document.querySelector('#form').addEventListener('submit', function(event) {
         }
     });
 
-//     Funzione per bloccare tutto tranne numeri
-//     document.getElementById('phone').addEventListener('input', function(event) {
-//         const input = event.target;
-//         const cleanedValue = input.value.replace(/\D/g, ''); // Remove all non-numeric characters
-//         input.value = cleanedValue;
-//     });
+let descriptionInput = document.getElementById("description");
+let counterElement = document.getElementById("counter");
+let maxLength = 500;
+
+descriptionInput.addEventListener("input", updateCounter);
+
+function updateCounter() {
+  let description = descriptionInput.value;
+  let remainingCharacters = maxLength - description.length;
+
+  counterElement.innerText = remainingCharacters + "/" + maxLength;
+
+  if (description.length > maxLength) {
+    descriptionInput.classList.add("is-invalid");
+  } else {
+    descriptionInput.classList.remove("is-invalid");
+  }
+}
     
 </script>
 @endsection

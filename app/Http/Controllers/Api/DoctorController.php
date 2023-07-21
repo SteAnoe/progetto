@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Doctor;
 use App\Models\Admin\Specialization;
 use App\Models\User;
+use App\Models\Admin\Review;
 
 
 class DoctorController extends Controller
@@ -25,6 +26,8 @@ class DoctorController extends Controller
                 $query->whereIn('id', $specializationsIds);
             });
         }
+        
+        
 
         $doctors = $query->get();
 
@@ -39,5 +42,16 @@ class DoctorController extends Controller
         //     'projects' => $projects
         // ]);
         //}
+    }
+    public function filterByStar(Request $request)
+    {
+        $selectedStar = $request->input('stars');
+
+        // Filtra i dottori che hanno recensioni con il voto selezionato
+        $filteredDoctors = Doctor::whereHas('stars', function ($query) use ($selectedStar) {
+            $query->where('stars', $selectedStar);
+        })->get();
+
+        return response()->json($filteredDoctors);
     }
 }

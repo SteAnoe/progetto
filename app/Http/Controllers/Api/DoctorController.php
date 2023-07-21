@@ -17,7 +17,7 @@ class DoctorController extends Controller
         
         $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
                 ->select('doctors.*', 'users.name', 'users.lastname', 'users.email', 'users.address')
-                ->with('specializations');
+                ->with('specializations','reviews');
 
         if ($request->has('specializations_ids')) {
             $specializationsIds = explode(',', $request->specializations_ids);

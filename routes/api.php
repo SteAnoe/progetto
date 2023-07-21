@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\SpecializationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,3 +19,4 @@ use App\Http\Controllers\Api\DoctorController;
 //     return $request->user();
 // });
 Route::get('/doctors',[DoctorController::class,'index']);
+Route::get('/specializations', [SpecializationController::class, 'index']);

@@ -29,29 +29,12 @@ class DoctorController extends Controller
         
         
 
-        $doctors = $query->get();
+        $doctors = $query->paginate(3);
 
         return response()->json([
             'success' => true,
             'doctors' => $doctors,
-        ]);
-       
-        // $projects = $query->paginate(3);
-        //     return response()->json([
-        //     'success' => true,
-        //     'projects' => $projects
-        // ]);
-        //}
+        ]); 
     }
-    public function filterByStar(Request $request)
-    {
-        $selectedStar = $request->input('stars');
-
-        // Filtra i dottori che hanno recensioni con il voto selezionato
-        $filteredDoctors = Doctor::whereHas('stars', function ($query) use ($selectedStar) {
-            $query->where('stars', $selectedStar);
-        })->get();
-
-        return response()->json($filteredDoctors);
-    }
+    
 }

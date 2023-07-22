@@ -20,3 +20,4 @@ use App\Http\Controllers\Api\SpecializationController;
 // });
 Route::get('/doctors',[DoctorController::class,'index','filterByStar']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
+Route::get('/doctors/{slug}', [DoctorController::class, 'show']);

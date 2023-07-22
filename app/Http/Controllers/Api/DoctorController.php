@@ -17,7 +17,7 @@ class DoctorController extends Controller
         
         
         $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
-                ->select('doctors.*', 'users.name', 'users.lastname', 'users.email', 'users.address')
+                ->select('doctors.*', 'users.name', 'users.slug', 'users.lastname', 'users.email', 'users.address')
                 ->with('specializations','reviews');
 
         if ($request->has('specializations_ids')) {
@@ -35,6 +35,24 @@ class DoctorController extends Controller
             'success' => true,
             'doctors' => $doctors,
         ]); 
+    }
+    public function show($slug){
+        $doctor = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
+        ->select('doctors.*', 'users.name', 'users.slug as user_slug', 'users.lastname', 'users.email', 'users.address')
+        ->with('specializations', 'reviews')
+        ->where('users.slug', $slug)
+        ->first();
+        if($doctor){
+            return response()->json([
+                'success' => true,
+                'doctor' => $doctor
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => 'Non ci sono doctors'
+            ]);
+        }
     }
     
 }

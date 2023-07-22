@@ -40,12 +40,31 @@
                 <div>
                     <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-warning">Modifica Profilo</a>
                 </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">
+                          Delete
+                        </button>
+                    
+                <div class="modal fade" id="{{$doctor->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{$user->name}} {{$user->lastname}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete your profile?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
                 
-                <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST" onclick="return confirm('Are you sure you want to delete your profile?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
             </div> 
         </div>
                 

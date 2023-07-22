@@ -21,7 +21,7 @@
     </div>
     @endif
     <div class="form-group mb-3">
-        <label for="description" class="form-label @error('description') is-invalid @enderror">Description</label>
+        <label for="description" class="form-label @error('description') is-invalid @enderror"><span class="text-danger fs-5">*</span> Description</label>
         @error('description')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -45,7 +45,7 @@
     @endif
 
     <div class="form-group mb-3">
-        <label for="phone" class="form-label @error('phone') is-invalid @enderror">Phone Number</label>
+        <label for="phone" class="form-label @error('phone') is-invalid @enderror"><span class="text-danger fs-5">*</span> Phone Number</label>
         @error('phone')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
@@ -57,7 +57,7 @@
         @error('specializations')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
-        <h4>Specializations</h4>
+        <h4><span class="text-danger">*</span> Specializations</h4>
         <div class="invalid-feedback" id="specializations-feedback"></div>
         @foreach($specializations as $specialization)
         <div class="form-check">
@@ -162,36 +162,38 @@ document.querySelector('#form').addEventListener('submit', function(event) {
             return true;
         }
     }
+    const cvInput = document.getElementById('curriculum_vitae');
+    const cvFeedback = document.getElementById('curriculum_vitae-feedback');
+    const allowedTypesCV = ['application/pdf', 'image/jpeg', 'image/jpg'];
+
+    if (cvInput.files.length > 0 && !allowedTypesCV.includes(cvInput.files[0].type)) {
+        cvInput.classList.add('is-invalid');
+        cvFeedback.textContent = 'Please upload a PDF, JPG, or JPEG file.';
+        isValid = false;
+    } else {
+        cvInput.classList.remove('is-invalid');
+        cvFeedback.textContent = '';
+    }
+
+    const photoInput = document.getElementById('photo');
+    const photoFeedback = document.getElementById('photo-feedback');
+    const allowedTypesPhoto = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+
+    if (photoInput.files.length > 0 && !allowedTypesPhoto.includes(photoInput.files[0].type)) {
+        photoInput.classList.add('is-invalid');
+        photoFeedback.textContent = 'Please upload a PNG, JPG, JPEG, or GIF file.';
+        isValid = false;
+    } else {
+        photoInput.classList.remove('is-invalid');
+        photoFeedback.textContent = '';
+    }
+
+    
     if (isValid) {
         event.target.submit();
     }
 });
-
-    document.getElementById('curriculum_vitae').addEventListener('change', function(event) {    
-        let input = event.target;
-        let allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
-
-        if (!allowedTypes.includes(input.files[0].type)) {
-            input.classList.add('is-invalid');
-            document.getElementById('curriculum_vitae-feedback').textContent = 'Please upload a PDF, JPG, or JPEG file.';
-        } else {
-            input.classList.remove('is-invalid');
-            document.getElementById('curriculum_vitae-feedback').textContent = '';
-        }
-    });
-    document.getElementById('photo').addEventListener('change', function(event) {        
-        let inputImg = event.target;
-        let allowedTypesImg = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-
-        if (!allowedTypesImg.includes(inputImg.files[0].type)) {
-            inputImg.classList.add('is-invalid');
-            document.getElementById('photo-feedback').textContent = 'Please upload a PNG, JPG, JPEG or GIF file.';
-        } else {
-            inputImg.classList.remove('is-invalid');
-            document.getElementById('photo-feedback').textContent = '';
-        }
-    });
-
+    
     function toggleInput() {
     let cvInput = document.getElementById("curriculum_vitae");
     let deleteCVCheckbox = document.getElementById("delete_cv");

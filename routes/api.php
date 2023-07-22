@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\SpecializationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,4 +18,5 @@ use App\Http\Controllers\Api\DoctorController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::get('/doctors',[DoctorController::class,'index']);
+Route::get('/doctors',[DoctorController::class,'index','filterByStar']);
+Route::get('/specializations', [SpecializationController::class, 'index']);

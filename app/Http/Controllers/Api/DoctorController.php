@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Doctor;
 use App\Models\Admin\Specialization;
 use App\Models\User;
+use App\Models\Admin\Review;
 
 
 class DoctorController extends Controller
@@ -17,7 +18,7 @@ class DoctorController extends Controller
         
         $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
                 ->select('doctors.*', 'users.name', 'users.lastname', 'users.email', 'users.address')
-                ->with('specializations');
+                ->with('specializations','reviews');
 
         if ($request->has('specializations_ids')) {
             $specializationsIds = explode(',', $request->specializations_ids);
@@ -25,19 +26,15 @@ class DoctorController extends Controller
                 $query->whereIn('id', $specializationsIds);
             });
         }
+        
+        
 
-        $doctors = $query->get();
+        $doctors = $query->paginate(3);
 
         return response()->json([
             'success' => true,
             'doctors' => $doctors,
-        ]);
-       
-        // $projects = $query->paginate(3);
-        //     return response()->json([
-        //     'success' => true,
-        //     'projects' => $projects
-        // ]);
-        //}
+        ]); 
     }
+    
 }

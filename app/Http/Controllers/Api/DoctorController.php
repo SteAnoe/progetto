@@ -29,8 +29,8 @@ class DoctorController extends Controller
         
         
 
-        $doctors = $query->paginate(3);
-
+        //$doctors = $query->paginate(3);
+        $doctors = $query->get();
         return response()->json([
             'success' => true,
             'doctors' => $doctors,

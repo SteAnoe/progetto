@@ -16,10 +16,11 @@ class DoctorController extends Controller
     public function index(Request $request){
         
         
-        $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
+         $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
                 ->select('doctors.*', 'users.name', 'users.slug', 'users.lastname', 'users.email', 'users.address')
-                ->with('specializations','reviews');
-
+                ->with('specializations','reviews')
+                ->withCount('reviews');
+        
         if ($request->has('specializations_ids')) {
             $specializationsIds = explode(',', $request->specializations_ids);
             $query->whereHas('specializations', function ($query) use ($specializationsIds) {
@@ -27,10 +28,27 @@ class DoctorController extends Controller
             });
         }
         
-        
-
-        //$doctors = $query->paginate(3);
-        $doctors = $query->get();
+        $query->selectSub(function ($query) {
+            $query->selectRaw('coalesce(avg(stars), 0)')
+                ->from('reviews')
+                ->whereColumn('reviews.doctor_id', 'doctors.id');
+        }, 'avg_stars');
+    
+        if ($request->has('minVoteFilter')) {
+            $minVoteFilter = (int) $request->minVoteFilter;
+    
+            $query->having('avg_stars', '>=', $minVoteFilter);
+        }
+        if ($request->has('sortBy')) {
+            $sortBy = $request->sortBy;
+            if ($sortBy === 'reviews') {
+                $query->orderByDesc('reviews_count');
+            } elseif ($sortBy === 'average_vote') {
+                $query->orderByDesc('avg_stars');
+            }
+        }
+        $doctors = $query->paginate(3);
+        //$doctors = $query->get();
         return response()->json([
             'success' => true,
             'doctors' => $doctors,

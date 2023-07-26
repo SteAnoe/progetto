@@ -4,19 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\Message;
 use App\Models\User;
 use App\Models\Admin\Doctor;
-
-class MessageController extends Controller
+use App\Models\Admin\Review;
+class ReviewController extends Controller
 {
     public function store(Request $request){
         $request->validate(
             [
                 'doctor_id' => 'required|integer', 
-                'email' => 'required|string',
-                'name' => 'required|string',
-                'lastname' => 'nullable|string',
+                'stars' => 'required|numeric',
+                'name' => 'required|string',              
                 'text' => 'required|string',
 
             ],
@@ -26,12 +24,12 @@ class MessageController extends Controller
         );
         $form_data = $request->all();
         $doctor = Doctor::findOrFail($request->doctor_id);
-        $message = new Message();
-        $message->fill($form_data);
-        $message->doctor_id = $doctor->id;
-        $doctor->messages()->save($message);
+        $review = new Review();
+        $review->fill($form_data);
+        $review->doctor_id = $doctor->id;
+        $doctor->reviews()->save($review);
         return response()->json([
-            'message' => 'Message sent successfully',
+            'review' => 'review sent successfully',
             'success' => true
         ], 200);
     }

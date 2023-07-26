@@ -24,7 +24,7 @@ class MessageSeeder extends Seeder
             $newMessage -> name = $faker -> unique()->firstName;
             $newMessage -> lastname = $faker->unique()->lastName;
             $newMessage -> text = $faker ->paragraph;
-            $newMessage -> slug = Str::slug($newMessage->name .'-'. $newMessage->lastname);
+            
             $newMessage -> save();
         }
     }

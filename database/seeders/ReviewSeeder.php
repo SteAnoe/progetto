@@ -23,7 +23,7 @@ class ReviewSeeder extends Seeder
             $newReview -> name = $faker -> unique()->firstName;
             $newReview -> lastname = $faker->unique()->lastName;
             $newReview -> text = $faker ->paragraph;
-            $newReview -> slug = Str::slug($newReview->name .'-'. $newReview->lastname);
+            
             $newReview -> save();
         }
     }

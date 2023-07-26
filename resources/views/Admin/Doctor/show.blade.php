@@ -79,34 +79,54 @@
 
 <div class="row my-3">
     <h2>Messaggi</h2>
-    @if($doctor->messages->isEmpty())
-        <p>Non ci sono messaggi.</p>
+    @if ($doctor->messages->isEmpty())
+    <p>Non ci sono messaggi.</p>
     @else
-        @foreach($doctor->messages as $message)
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{$message-> name}} {{$message-> lastname}}</h5>
-                <p class="card-text">{{$message-> text}}</p>
-                <p class="card-text">{{$message-> email}}</p>
-            </div>
-        </div>
-        @endforeach
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($doctor->messages->sortByDesc('created_at') as $message)
+                    <tr>
+                        <td>{{$message->name}} {{$message->lastname}}</td>
+                        <td>{{$message->email}}</td>
+                        <td>{{$message->text}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
 </div>
 <div class="row">
     <h2>Recensioni</h2>
     @if($doctor->reviews->isEmpty())
-        <p>Non ci sono recensioni.</p>
+    <p>Non ci sono recensioni.</p>
     @else
-        @foreach($doctor->reviews as $review)
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{$review-> name}} {{$review-> lastname}}</h5>
-                <p class="card-text">{{$review-> text}}</p>
-                <p class="card-text">{{$review-> stars}}</p>
-            </div>
-        </div>
-        @endforeach
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Review</th>
+                    <th>Stars</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($doctor->reviews->sortByDesc('created_at') as $review)
+                <tr>
+                    <td>{{$review->name}} {{$review->lastname}}</td>
+                    <td>{{$review->text}}</td>
+                    <td>{{$review->stars}}</td>
+                    <td>{{$review->created_at}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
-</div>
+    </div>
 @endsection

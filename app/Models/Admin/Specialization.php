@@ -14,7 +14,7 @@ class Specialization extends Model
         return  Str::slug($name, '-');
     }
 
-    protected $fillable = ['name' , 'slug'];
+    protected $fillable = ['name' , 'slug', 'img'];
 
     public function doctors(){
         return $this->belongsToMany(Doctor::class);

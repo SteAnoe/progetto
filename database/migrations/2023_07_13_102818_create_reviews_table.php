@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name')->required();
             $table->string('lastname')->nullable();
             $table->text('text')->required();
-            $table->string('slug');
+            
             $table->timestamps();
         });
     }

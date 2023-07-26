@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SpecializationController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,4 +24,5 @@ Route::get('/doctors',[DoctorController::class,'index','filterByStar']);
 Route::get('/doctors/{slug}', [DoctorController::class, 'show']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
 Route::get('/specializations/{slug}', [SpecializationController::class, 'show']);
-Route::post('/doctors/{slug}/message', [MessageController::class, 'store']);
+Route::post('/message', [MessageController::class, 'store']);
+Route::post('/review', [ReviewController::class, 'store']);

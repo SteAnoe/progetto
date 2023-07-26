@@ -49,7 +49,7 @@ class SpecializationController extends Controller
         }
     }
 
-    $doctors = $query->paginate(3);
+    $doctors = $query->paginate(10);
 
     return response()->json([
         'doctors' => $doctors,

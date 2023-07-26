@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     {   
         $specializations = Specialization::all();
         
-        for($i = 1; $i <= 30; $i++) {
+        for($i = 1; $i <= 100; $i++) {
             $newUser = new User();
             $newUser->name = $faker->unique()->firstName;
             $newUser->lastname = $faker->unique()->lastName;

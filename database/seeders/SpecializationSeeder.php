@@ -18,7 +18,7 @@ class SpecializationSeeder extends Seeder
     {
         $specializations = [
             [
-                'namespec' => 'Medicina-Interna',
+                'namespec' => 'Medicina Interna',
                 'img' => 'https://www.doctorium.it/wp-content/uploads/2022/02/icone_genetica-100x100-1.png'   
             ],
             [
@@ -58,7 +58,7 @@ class SpecializationSeeder extends Seeder
                 'img' => 'https://www.doctorium.it/wp-content/uploads/2022/02/icone_ortopedia-100x100-1.png'   
             ],
             [
-                'namespec' => 'Gastroentrologia',
+                'namespec' => 'Gastroenterologia',
                 'img' => 'https://www.doctorium.it/wp-content/uploads/2022/01/icone_gastroenterologia-100x100-1.png'   
             ],
             [

@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             SponsorshipSeeder::class,
             UserSeeder::class,
             MessageSeeder::class,
-            ReviewSeeder::class,
+            
         ]);
     }
 }

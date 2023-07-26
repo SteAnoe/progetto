@@ -17,9 +17,9 @@ class MessageSeeder extends Seeder
      */
     public function run(Faker $faker)
     { 
-        for($i = 0; $i < 30; $i++){
+        for($i = 0; $i < 300; $i++){
             $newMessage =  new Message();
-            $newMessage -> doctor_id = rand(1,30);
+            $newMessage -> doctor_id = rand(1,100);
             $newMessage -> email = $faker->unique()->email;
             $newMessage -> name = $faker -> unique()->firstName;
             $newMessage -> lastname = $faker->unique()->lastName;

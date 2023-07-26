@@ -20,13 +20,8 @@ class DoctorController extends Controller
                 ->select('doctors.*', 'users.name', 'users.slug', 'users.lastname', 'users.email', 'users.address')
                 ->with('specializations','reviews')
                 ->withCount('reviews');
+                
         
-        if ($request->has('specializations_ids')) {
-            $specializationsIds = explode(',', $request->specializations_ids);
-            $query->whereHas('specializations', function ($query) use ($specializationsIds) {
-                $query->whereIn('id', $specializationsIds);
-            });
-        }
         
         $query->selectSub(function ($query) {
             $query->selectRaw('coalesce(avg(stars), 0)')
@@ -47,8 +42,8 @@ class DoctorController extends Controller
                 $query->orderByDesc('avg_stars');
             }
         }
-        $doctors = $query->paginate(3);
-        //$doctors = $query->get();
+        //$doctors = $query->paginate(3);
+        $doctors = $query->get();
         return response()->json([
             'success' => true,
             'doctors' => $doctors,

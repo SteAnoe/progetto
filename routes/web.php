@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DoctorController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\SponsorshipController;
 
 
 
@@ -39,7 +40,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+    Route::post('/sponsorship', [SponsorshipController::class, 'token'])->name('token');
+    //Route::post('/sponsorship', [SponsorshipController::class, 'tokenStore'])->name('tokenStore');
     Route::resource('/dashboard', DoctorController::class)->parameters(
         [
             'user' => 'user:slug'

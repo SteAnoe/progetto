@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Admin\Message;
 use App\Models\Admin\Review;
 use Illuminate\Support\Facades\Storage;
+use Braintree\Gateway;
 class DoctorController extends Controller
 {
     /**
@@ -19,14 +20,21 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $gateway = new Gateway([
+            'environment' => env('BRAINTREE_ENVIRONMENT'),
+            'merchantId' => env("BRAINTREE_MERCHANT_ID"),
+            'publicKey' => env("BRAINTREE_PUBLIC_KEY"),
+            'privateKey' => env("BRAINTREE_PRIVATE_KEY")
+        ]);
+        $token = $gateway->clientToken()->generate();
         $doctor = Doctor::where('user_id', Auth::user()->id)->first();
         $user = Auth::user();
         if ($user->id !== auth()->user()->id) {
             abort(403, "Non hai il permesso di visualizzare questo profilo.");
         } else {
             if ($doctor){
-                return view('admin.doctor.show', compact('doctor', 'user'));
+                return view('admin.doctor.show', compact('doctor', 'user', 'token'));
             }else{
                 return view('dashboard', compact('doctor', 'user'));
             }
@@ -113,6 +121,14 @@ class DoctorController extends Controller
      */
     public function show($id, User $user , Message $message , Review $review, Doctor $doctor)
     {
+        $gateway = new Gateway([
+            'environment' => env('BRAINTREE_ENVIRONMENT'),
+            'merchantId' => env("BRAINTREE_MERCHANT_ID"),
+            'publicKey' => env("BRAINTREE_PUBLIC_KEY"),
+            'privateKey' => env("BRAINTREE_PRIVATE_KEY")
+        ]);
+
+        $token = $gateway->clientToken()->generate();
         
         $user = Auth::user();
         $doctor = Doctor::findOrFail($id);
@@ -121,7 +137,7 @@ class DoctorController extends Controller
         if ($doctor->id !== auth()->user()->id) {
             abort(403, "Non hai il permesso di visualizzare questo profilo.");
         } else {
-            return view('admin.doctor.show', compact( 'doctor' , 'user' , 'messages' , 'reviews'));    
+            return view('admin.doctor.show', compact( 'doctor' , 'user' , 'messages' , 'reviews', 'token'));    
         }
         }
         

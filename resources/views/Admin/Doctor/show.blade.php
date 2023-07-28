@@ -129,4 +129,81 @@
         </table>
     @endif
     </div>
+    <div class="row">
+    <form id="payment-form" action="{{route('admin.token')}}" method="POST" >
+    @csrf
+    <div class="d-flex justify-content-center my-3 text-center">
+        <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+            <div class="mb-2">Piano Silver</div>
+            <div class="mb-2">
+                Sponsorizza la tu pagina per <b>24 ore.</b>
+            </div>
+            <input type="radio" name="amount" id="submit-button-1" class="btn btn-sm btn-success" data-amount="10" value="1">€2.99</input>
+        </div>
+        <div class="sponsor-medium col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+            <div class="mb-2">Piano Gold</div>
+            <div class="mb-2">
+                Sponsorizza la tu pagina per <b>72 ore.</b>
+            </div>
+            <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2">€5.99</input>
+        </div>
+        <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+            <div class="mb-2">Piano Platinum</div>
+            <div class="mb-2">
+                Sponsorizza la tu pagina per <b>144 ore.</b>
+            </div>
+            <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3">€9.99</input>
+        </div>
+    </div>
+        <div id="dropin-container" style="display: flex;justify-content: center;align-items: center;"></div>
+        <button type="submit" class="btn btn-sm btn-success">Submit payment</button>
+        <input type="hidden" id="nonce" name="payment_method_nonce" />
+    </form>
+    <div>
+    
+    @if ($doctor->sponsorships->isNotEmpty())
+         <!-- <p>Expire Time: {{ \Carbon\Carbon::parse($doctor->hisponsorsps->first()->pivot->expire)->format('Y-m-d H:i:s') }}</p> -->
+        
+    @else
+        <p>No sponsorship data or expire time available.</p>
+    @endif
+    </div>
+    @if ($doctor->sponsorships)
+            <div>
+            sponsorship:<br>
+                    <ul>
+                        @foreach($doctor->sponsorships as $elem)	
+                            <li>
+                                {{$elem->level}}
+                            </li>  
+                        @endforeach
+                    </ul>
+                    
+            </div>
+            @endif
+</div>    
+<script>
+    let token = '{{ $token }}';
+    const form = document.getElementById('payment-form');
+
+    braintree.dropin.create({
+      authorization: token,
+      container: '#dropin-container'
+    }, (error, dropinInstance) => {
+      if (error) console.error(error);
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+
+        dropinInstance.requestPaymentMethod((error, payload) => {
+          if (error) console.error(error);
+
+         
+          document.getElementById('nonce').value = payload.nonce;
+          form.submit();
+        });
+      });
+    });
+</script>
+    <!-- <a href="{{route ('admin.token', $doctor)}}">a</a> -->
 @endsection

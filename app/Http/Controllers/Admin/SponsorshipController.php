@@ -61,40 +61,29 @@ class SponsorshipController extends Controller
             return redirect()->route('payment.error');
     }
 
-    $expireTime = Carbon::now()->addHours($hours);
-    
-        // Save the pivot data to the doctor_sponsorship table
+    $existingSponsorship = $doctor->sponsorships->where('pivot.sponsorship_id', $selectedSponsorship)->first();
+
+    // dd('Selected sponsorship:', $selectedSponsorship);
+    // dd('Existing sponsorship:', $existingSponsorship);
+    if ($existingSponsorship) {
+        // Calculate the new expiration time by adding hours to the existing time
+        $expireTime = \Carbon\Carbon::parse($existingSponsorship->pivot->expire)->addHours($hours);
+        
+        // Update the expiration time of the existing sponsorship
+        $doctor->sponsorships()->updateExistingPivot($selectedSponsorship, ['expire' => $expireTime]);
+    } else {
+        // Calculate the expiration time for the new sponsorship
+        $expireTime = now()->addHours($hours);
+        
+        // Attach the new sponsorship with the expiration time
         $doctor->sponsorships()->attach($selectedSponsorship, ['expire' => $expireTime]);
-       
+    }
+
         $clientToken = $gateway->clientToken()->generate();
-        return view('admin.doctor.show', ['token' => $clientToken], compact('doctor', 'gateway', 'user', 'messages' , 'reviews'));
+        return view('admin.doctor.sponsor', ['token' => $clientToken], compact('doctor', 'gateway', 'user', 'messages' , 'reviews'));
     }
 
 
     
-    // public function tokenStore(Request $request, Doctor $doctor){
-        
-        
-    //     $gateway = new Gateway([
-    //         'environment' => env('BRAINTREE_ENVIRONMENT'),
-    //         'merchantId' => env("BRAINTREE_MERCHANT_ID"),
-    //         'publicKey' => env("BRAINTREE_PUBLIC_KEY"),
-    //         'privateKey' => env("BRAINTREE_PRIVATE_KEY")
-    //     ]);
-    //     //if ($request->input('nonce') != null) {
-    //         $nonceFromTheClient = $request->input('nonce');
-
-    //         $result = $gateway->transaction()->sale([
-    //             'amount' => '10,00',
-    //             'paymentMethodNonce' => $nonceFromTheClient,
-    //             'options' => [
-    //                 'submitForSettlement' => True
-    //             ]
-    //         ]);
-    //         dd($result);
-    //     //}
-    //     $clientToken = $gateway->clientToken()->generate();
-    //     //return back();
-    //     return redirect()->route('admin.dashboard.index', compact('doctor'));
-    // }
+    
 }

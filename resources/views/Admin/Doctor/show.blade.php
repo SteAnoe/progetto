@@ -129,10 +129,12 @@
         </table>
     @endif
     </div>
+    @if ($doctor->sponsorships->isEmpty())
     <div class="row">
+    <button id="premium-button" class="btn btn-primary">Passa a premium</button>
     <form id="payment-form" action="{{route('admin.token')}}" method="POST" >
     @csrf
-    <div class="d-flex justify-content-center my-3 text-center">
+    <div class=" justify-content-center my-3 text-center" id="premium-section" style="display: none;">
         <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
             <div class="mb-2">Piano Silver</div>
             <div class="mb-2">
@@ -155,55 +157,87 @@
             <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3">€9.99</input>
         </div>
     </div>
-        <div id="dropin-container" style="display: flex;justify-content: center;align-items: center;"></div>
-        <button type="submit" class="btn btn-sm btn-success">Submit payment</button>
-        <input type="hidden" id="nonce" name="payment_method_nonce" />
+    <div id="dropin-container" style="display: none; justify-content: center; align-items: center;"></div>
+    <button id="submit-payment-btn" type="submit" class="btn btn-sm btn-success" style="display: none;">Submit payment</button>
+    <input type="hidden" id="nonce" name="payment_method_nonce" />
     </form>
     <div>
-    
-    @if ($doctor->sponsorships->isNotEmpty())
-         <!-- <p>Expire Time: {{ \Carbon\Carbon::parse($doctor->hisponsorsps->first()->pivot->expire)->format('Y-m-d H:i:s') }}</p> -->
-        
     @else
-        <p>No sponsorship data or expire time available.</p>
+    
+    <h2>Active Sponsorship</h2>
+    @foreach($doctor->sponsorships as $elem)	
+    <p>Level: {{$elem->level}}</p>
+    <p>Duration: {{$elem->duration}}h</p>
+    <p>Expire: {{$elem->pivot->expire}}</p>
+    @endforeach
     @endif
     </div>
-    @if ($doctor->sponsorships)
-            <div>
-            sponsorship:<br>
-                    <ul>
-                        @foreach($doctor->sponsorships as $elem)	
-                            <li>
-                                {{$elem->level}}
-                            </li>  
-                        @endforeach
-                    </ul>
-                    
-            </div>
-            @endif
+    
 </div>    
 <script>
-    let token = '{{ $token }}';
+   let token = '{{ $token }}';
     const form = document.getElementById('payment-form');
+    const dropinContainer = document.getElementById('dropin-container');
+    const submitButton = document.getElementById('submit-payment-btn');
+
+    // Function to show the drop-in container and submit button
+    function showDropinAndSubmit() {
+        dropinContainer.style.display = 'flex';
+        submitButton.style.display = 'block';
+    }
+
+    // Function to hide the drop-in container and submit button
+    function hideDropinAndSubmit() {
+        dropinContainer.style.display = 'none';
+        submitButton.style.display = 'none';
+    }
+
+    // Event listener for radio buttons with name "amount"
+    const radioButtons = document.querySelectorAll('input[name="amount"]');
+    radioButtons.forEach((radioButton) => {
+        radioButton.addEventListener('change', (event) => {
+            const selectedAmount = event.target.value;
+            if (selectedAmount) {
+                // Show the container and submit button when a radio button is selected
+                showDropinAndSubmit();
+            } else {
+                // Hide the container and submit button when no radio button is selected
+                hideDropinAndSubmit();
+            }
+        });
+    });
 
     braintree.dropin.create({
-      authorization: token,
-      container: '#dropin-container'
+        authorization: token,
+        container: '#dropin-container'
     }, (error, dropinInstance) => {
-      if (error) console.error(error);
+        if (error) console.error(error);
 
-      form.addEventListener('submit', event => {
-        event.preventDefault();
+        form.addEventListener('submit', event => {
+            event.preventDefault();
 
-        dropinInstance.requestPaymentMethod((error, payload) => {
-          if (error) console.error(error);
+            dropinInstance.requestPaymentMethod((error, payload) => {
+                if (error) console.error(error);
 
-         
-          document.getElementById('nonce').value = payload.nonce;
-          form.submit();
+                document.getElementById('nonce').value = payload.nonce;
+                form.submit();
+            });
         });
-      });
     });
+
+    const premiumButton = document.getElementById('premium-button');
+    const premiumSection = document.getElementById('premium-section');
+
+    // Add a click event listener to the premium button
+    premiumButton.addEventListener('click', () => {
+        // Toggle the visibility of the premium section
+        if (premiumSection.style.display === 'none') {
+            premiumSection.style.display = 'flex'; // Show the premium section
+        } else {
+            premiumSection.style.display = 'none'; // Hide the premium section
+        }
+    });
+
 </script>
-    <!-- <a href="{{route ('admin.token', $doctor)}}">a</a> -->
+
 @endsection

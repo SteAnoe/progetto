@@ -29,6 +29,6 @@ class Doctor extends Model
     }
 
     public function sponsorships(){
-	    return $this->belongsToMany(Sponsorship::class);
+	    return $this->belongsToMany(Sponsorship::class, 'doctor_sponsorship', 'doctor_id', 'sponsorship_id')->withPivot('expire');
     }
 }

@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             $newDoctor->user_id = $newUser->id;
             $newDoctor->phone = $faker->numerify('##########');
             $newDoctor->curriculum_vitae = 'curriculm.jpeg';
-            $newDoctor->photo = 'doctor-login.png';
+            $newDoctor->photo = 'null';
             $newDoctor->description = $faker->paragraph;
             $newDoctor->save();
         

@@ -17,6 +17,6 @@ class Sponsorship extends Model
     protected $fillable = ['level' , 'description' , 'price' , 'duration' , 'slug'];
 
     public function doctors(){
-        return $this->belongsToMany(Doctor::class);
+        return $this->belongsToMany(Doctor::class, 'doctor_sponsorship', 'sponsorship_id', 'doctor_id')->withPivot('expire');
     }
 }

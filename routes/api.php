@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\SpecializationController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SponsorshipController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +22,9 @@ use App\Http\Controllers\Api\ReviewController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::get('/doctors',[DoctorController::class,'index','filterByStar']);
+Route::get('/doctors',[DoctorController::class,'index']);
 Route::get('/doctors/{slug}', [DoctorController::class, 'show']);
+Route::get('/doctors-with-sponsorship',[SponsorshipController::class,'onlyDocsWithSponsorships']);
 Route::get('/specializations', [SpecializationController::class, 'index']);
 Route::get('/specializations/{slug}', [SpecializationController::class, 'show']);
 Route::post('/message', [MessageController::class, 'store']);

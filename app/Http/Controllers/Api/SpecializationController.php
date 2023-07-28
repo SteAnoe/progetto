@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Specialization;
 use App\Models\Admin\Doctor;
+use App\Models\Admin\Sponsorship;
+use Carbon\Carbon; 
+use Illuminate\Support\Facades\DB;
 class SpecializationController extends Controller
 {   
     public function index() {
@@ -22,12 +25,12 @@ class SpecializationController extends Controller
     public function show(Request $request, $slug)
 {
     $query = Doctor::join('users', 'doctors.user_id', '=', 'users.id')
-        ->select('doctors.*', 'users.name', 'users.slug', 'users.lastname', 'users.email', 'users.address')
-        ->with('specializations', 'reviews')
-        ->withCount('reviews')
-        ->whereHas('specializations', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        });
+    ->select('doctors.*', 'users.name', 'users.slug', 'users.lastname', 'users.email', 'users.address')
+    ->with('specializations', 'reviews', 'sponsorships')
+    ->withCount('reviews')
+    ->whereHas('specializations', function ($query) use ($slug) {
+        $query->where('slug', $slug);
+    });
 
     $query->selectSub(function ($query) {
         $query->selectRaw('coalesce(avg(stars), 0)')
@@ -49,10 +52,18 @@ class SpecializationController extends Controller
         }
     }
 
-    $doctors = $query->paginate(10);
+    $doctors = $query->get();
+
+    foreach ($doctors as $doctor) {
+        $doctor->active_sponsorship = !$doctor->sponsorships->isEmpty();
+    }
+
+    $sortedDoctors = $doctors->sortByDesc('active_sponsorship')->values();
 
     return response()->json([
-        'doctors' => $doctors,
+        'doctors' => $sortedDoctors,
     ]);
+
 }
+
 }

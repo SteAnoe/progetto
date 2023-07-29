@@ -1,52 +1,137 @@
 @extends('layouts.app')
 @section('content')
-<div class="row">
-    <h1 class="my-3 p-0">Benvenuto <br> {{$user->name}} {{$user->lastname}}!</h1>
-</div>
-
-
-<div class="row my-3">
-    <h2 class="p-0">Il tuo profilo:</h2>
-    <div class="col-lg-12 col-md-10 col-sm-12 d-flex justify-content-between" id="doctor-card">
-        <div class="col-sm-12 col-md-5 col-lg-5">
-            <h5 class="card-title">{{$user->name}} {{$user->lastname}}</h5>
-            @if($doctor->description)
-            <div id="description-show">
-                <p class="card-text">Description: <br>{{$doctor->description}}</p>
-            </div>    
-            @endif
-            <p class="card-text">Address: {{$user->address}}</p>
-            @if($doctor->phone)
-                <p class="card-text">Phone: {{$doctor->phone}}</p>
-            @endif
-            @if ($doctor->curriculum_vitae)
-                CV:
-                <a href="{{ asset('storage/' . $doctor->curriculum_vitae) }}" target="_blank">Preview</a>
-            @endif
-            @if ($doctor->specializations)
-            <div>
-                Specializations:<br>
-                    <ul>
-                        @foreach($doctor->specializations as $elem)	
-                            <li>
-                                {{$elem->name}}
-                            </li>  
-                        @endforeach
-                    </ul>
-                    
-            </div>
-            @endif
-            <div class="d-flex col-6">
-                <div>
-                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-warning">Modifica Profilo</a>
+<div id="main-show" class="row">
+    <div id="left-box" class="col-lg-4">
+        <h1 class="p-2">Il tuo profilo</h1>
+        <div class="d-flex">
+            <div id="foto" class="border1">
+            @if($doctor->photo)
+                <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
+                    <img class="doctor-img" class="img-fluid" src="{{ asset('storage/' . $doctor->photo) }}" alt="">
+                </a>
+            @else
+                <div class="img-link d-flex justify-content-center align-items-center">
+                    <img class="doctor-img" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">
-                          Delete
-                        </button>
-                    
-                <div class="modal fade" id="{{$doctor->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+            @endif
+            </div>
+            <div>
+
+            </div>
+            <div id="info" class="border1">
+                <h5 class="mb-5">{{$user->name}} {{$user->lastname}}</h5>
+                <p class="m-0"><strong>Email:</strong> {{$user->email}}</p>
+                <p class="m-0"><strong>Indirizzo:</strong> {{$user->address}}</p>
+                @if($doctor->phone)
+                    <p class="m-0"><strong>Tel:</strong> {{$doctor->phone}}</p>
+                @endif
+            </div> 
+        </div>
+        <div class="border1">
+            <div class="">
+                @if($doctor->description)
+                <div class="mb-3">
+                    <p class="card-text"><strong>Descrizione:</strong><br>{{$doctor->description}}</p>
+                </div>    
+                @endif
+                @if ($doctor->curriculum_vitae)
+                    <strong>CV:</strong>
+                    <a href="{{ asset('storage/' . $doctor->curriculum_vitae) }}" target="_blank">Preview</a>
+                @endif
+                @if ($doctor->specializations)
+                <div>
+                    <strong>Specializzazione:</strong><br>
+                        <ul>
+                            @foreach($doctor->specializations as $elem)	
+                                <li>
+                                    {{$elem->name}}
+                                </li>  
+                            @endforeach
+                        </ul>            
+                </div>
+                @endif 
+            </div> 
+        </div>
+        @if ($doctor->sponsorships->isEmpty())
+        <div class="border1 text-center">
+            <button id="premium-button" class="btn mt-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">Sponsorizza il tuo profilo</button>
+            <div class="d-flex justify-content-around align-items-center my-3">
+                <div>
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light">Modifica Profilo</a>
+                </div>
+                <div>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+                Elimina profilo
+                </button>           
+                </div>   
+            </div>
+        </div>  
+        
+        @endif
+        <div class="modal fade" id="{{$doctor->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5" id="exampleModalLabel">{{$user->name}} {{$user->lastname}}</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="payment-form" action="{{route('admin.token')}}" method="POST" >
+                            @csrf
+                            <div class=" justify-content-center my-3 text-center" id="premium-section" style="display: none;">
+                                <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <div class="mb-2">Piano Silver</div>
+                                    <div class="mb-2">
+                                        Sponsorizza la tu pagina per <b>24 ore.</b>
+                                    </div>
+                                    <input type="radio" name="amount" id="submit-button-1" class="btn btn-sm btn-success" data-amount="10" value="1">€2.99</input>
+                                </div>
+                                <div class="sponsor-medium col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <div class="mb-2">Piano Gold</div>
+                                    <div class="mb-2">
+                                        Sponsorizza la tu pagina per <b>72 ore.</b>
+                                    </div>
+                                    <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2">€5.99</input>
+                                </div>
+                                <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <div class="mb-2">Piano Platinum</div>
+                                    <div class="mb-2">
+                                        Sponsorizza la tu pagina per <b>144 ore.</b>
+                                    </div>
+                                    <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3">€9.99</input>
+                                </div>
+                            </div>
+                            <div id="dropin-container" style="display: none; justify-content: center; align-items: center;"></div>
+                            <button id="submit-payment-btn" type="submit" class="mt-4 btn btn-sm btn-success" style="display: none;">Submit payment</button>
+                            <input type="hidden" id="nonce" name="payment_method_nonce" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        @if ($doctor->sponsorships->isNotEmpty())
+        <div class="border1 px-3">
+            <h2 class="my-3">Sponsorizzazione Attiva</h2>
+            @foreach($doctor->sponsorships as $elem)	
+            <p class="m-0"><strong>Level:</strong> {{$elem->level}}</p>
+            <p class="m-0"><strong>Duration:</strong> {{$elem->duration}}h</p>
+            <p class="m-0"><strong>Expire:</strong> {{$elem->pivot->expire}}</p>
+            @endforeach
+            <div class="my-5 d-flex justify-content-around align-items-center">
+                <div>
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light">Modifica Profilo</a>
+                </div>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+                    Elimina profilo
+                </button>           
+            </div>
+
+        </div>
+        @endif
+    </div>
+        <div class="modal fade" id="{{$doctor->phone}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">{{$user->name}} {{$user->lastname}}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -61,119 +146,67 @@
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
-                    </div>
                 </div>
-                </div>
-                
-            </div> 
+            </div>
+        </div>    
+    <div id="right-box" class="col-lg-8">
+    
+        <div id="msg-box" class="row border1">
+            <h2 >Messaggi</h2>
+            @if ($doctor->messages->isEmpty())
+            <p >Non ci sono messaggi.</p>
+            @else
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($doctor->messages->sortByDesc('created_at') as $message)
+                            <tr>
+                                <td>{{$message->name}} {{$message->lastname}}</td>
+                                <td>{{$message->email}}</td>
+                                <td>{{$message->text}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
-                
-        <div id="img-box" class="col-sm-12 col-md-6 col-lg-6">
-            <a id="img-link" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
-                <img id="doctor-img" class="img-fluid" src="{{ asset('storage/' . $doctor->photo) }}" alt="">
-            </a>
+        <div id="review-box" class="row border1">
+            <h2>Recensioni</h2>
+            @if($doctor->reviews->isEmpty())
+            <p>Non ci sono recensioni.</p>
+            @else
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Review</th>
+                            <th>Stars</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($doctor->reviews->sortByDesc('created_at') as $review)
+                        <tr>
+                            <td>{{$review->name}} {{$review->lastname}}</td>
+                            <td>{{$review->text}}</td>
+                            <td>{{$review->stars}}</td>
+                            <td>{{$review->created_at}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
 </div>
 
-
-<div class="row my-3">
-    <h2>Messaggi</h2>
-    @if ($doctor->messages->isEmpty())
-    <p>Non ci sono messaggi.</p>
-    @else
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($doctor->messages->sortByDesc('created_at') as $message)
-                    <tr>
-                        <td>{{$message->name}} {{$message->lastname}}</td>
-                        <td>{{$message->email}}</td>
-                        <td>{{$message->text}}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-</div>
-<div class="row">
-    <h2>Recensioni</h2>
-    @if($doctor->reviews->isEmpty())
-    <p>Non ci sono recensioni.</p>
-    @else
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Review</th>
-                    <th>Stars</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($doctor->reviews->sortByDesc('created_at') as $review)
-                <tr>
-                    <td>{{$review->name}} {{$review->lastname}}</td>
-                    <td>{{$review->text}}</td>
-                    <td>{{$review->stars}}</td>
-                    <td>{{$review->created_at}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-    </div>
-    @if ($doctor->sponsorships->isEmpty())
-    <div class="row">
-    <button id="premium-button" class="btn btn-primary">Passa a premium</button>
-    <form id="payment-form" action="{{route('admin.token')}}" method="POST" >
-    @csrf
-    <div class=" justify-content-center my-3 text-center" id="premium-section" style="display: none;">
-        <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-            <div class="mb-2">Piano Silver</div>
-            <div class="mb-2">
-                Sponsorizza la tu pagina per <b>24 ore.</b>
-            </div>
-            <input type="radio" name="amount" id="submit-button-1" class="btn btn-sm btn-success" data-amount="10" value="1">€2.99</input>
-        </div>
-        <div class="sponsor-medium col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-            <div class="mb-2">Piano Gold</div>
-            <div class="mb-2">
-                Sponsorizza la tu pagina per <b>72 ore.</b>
-            </div>
-            <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2">€5.99</input>
-        </div>
-        <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-            <div class="mb-2">Piano Platinum</div>
-            <div class="mb-2">
-                Sponsorizza la tu pagina per <b>144 ore.</b>
-            </div>
-            <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3">€9.99</input>
-        </div>
-    </div>
-    <div id="dropin-container" style="display: none; justify-content: center; align-items: center;"></div>
-    <button id="submit-payment-btn" type="submit" class="btn btn-sm btn-success" style="display: none;">Submit payment</button>
-    <input type="hidden" id="nonce" name="payment_method_nonce" />
-    </form>
-    <div>
-    @else
-    
-    <h2>Active Sponsorship</h2>
-    @foreach($doctor->sponsorships as $elem)	
-    <p>Level: {{$elem->level}}</p>
-    <p>Duration: {{$elem->duration}}h</p>
-    <p>Expire: {{$elem->pivot->expire}}</p>
-    @endforeach
-    @endif
-    </div>
-    
-</div>    
+ 
 <script>
    let token = '{{ $token }}';
     const form = document.getElementById('payment-form');

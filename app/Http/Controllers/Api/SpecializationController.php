@@ -52,16 +52,12 @@ class SpecializationController extends Controller
         }
     }
 
+    $query->orderByRaw("CASE WHEN EXISTS (SELECT * FROM doctor_sponsorship WHERE doctors.id = doctor_sponsorship.doctor_id AND expire > NOW()) THEN 0 ELSE 1 END");
+
     $doctors = $query->get();
 
-    foreach ($doctors as $doctor) {
-        $doctor->active_sponsorship = !$doctor->sponsorships->isEmpty();
-    }
-
-    $sortedDoctors = $doctors->sortByDesc('active_sponsorship')->values();
-
     return response()->json([
-        'doctors' => $sortedDoctors,
+        'doctors' => $doctors,
     ]);
 
 }

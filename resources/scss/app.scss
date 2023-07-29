@@ -1,9 +1,12 @@
 @import '~bootstrap/scss/bootstrap';
 
 main{
-    height: calc(100vh - 56px);
+    //height: calc(100vh - 56px);
     // overflow: hidden;
     // overflow-y: hidden;
+   
+    background: rgb(0,170,189);
+    background: linear-gradient(0deg, rgba(0,170,189,1) 0%, rgba(255,255,255,1) 87%);
 }
 #cont-100{
     height: 100%;
@@ -20,8 +23,8 @@ nav{
     box-sizing: border-box;
 }
 #main-show{
-    background: rgb(0,170,189);
-    background: linear-gradient(0deg, rgba(0,170,189,1) 0%, rgba(255,255,255,1) 87%);
+   // height: calc(100vh - 56px);
+    
 }
 .img-link{
     width: 100%;
@@ -43,7 +46,7 @@ h1{
     margin: 0;
 }
 #left-box{
-    height: calc(100vh - 56px);
+   //height: calc(100vh - 56px);
     padding-right: 0;
     
 }
@@ -51,7 +54,7 @@ h1{
 
 
 #right-box{
-    height: calc(100vh - 56px);
+    //height: calc(100vh - 56px);
     
     
 }

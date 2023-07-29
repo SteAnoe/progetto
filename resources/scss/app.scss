@@ -5,6 +5,9 @@ main{
     // overflow: hidden;
     // overflow-y: hidden;
 }
+#cont-100{
+    height: 100%;
+}
 nav{
     height: 56px;
     background-color: #00aabd; 
@@ -34,10 +37,7 @@ nav{
 .border1:hover{
     box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.6);
 }
-.doctor-img{
-    max-width: 200px;
-    max-height: 200px;   
-}
+
 h1{
     border: 1px solid black;
     margin: 0;
@@ -69,13 +69,13 @@ h1{
     transition: transform 0.3s ease-in-out;
 }
 
-#foto{
-    width: 50%;
-}
+// #foto{
+//     width: 50%;
+// }
 
-#info{
-    width: 50%;
-}
+// #info{
+//     width: 50%;
+// }
 
 #premium-button{
     border-radius: 30px;
@@ -96,4 +96,151 @@ h1{
 
 .table{
     --bs-table-bg: none !important;
+}
+
+.modal-content{
+    width: 600px;
+}
+.card1 {
+    width: 190px;
+    height: 254px;
+    
+    position: relative;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  
+  .card1 h3 {
+    z-index: 1;
+    color: white;
+    font-size: 2em;
+  }
+  .card1 p{
+    z-index: 1;
+    color: white;
+  }
+  .card1 input{
+    z-index: 1;
+  }
+  #prezzo{
+    z-index: 1;
+    color: white
+  }
+  .card1 {
+    width: 190px;
+    height: 254px;
+    
+    position: relative;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  
+  .card1 h3 {
+    z-index: 1;
+    color: white;
+    font-size: 2em;
+  }
+  .card1 p{
+    z-index: 1;
+    color: white;
+  }
+  .card1 input{
+    z-index: 1;
+  }
+  #prezzo{
+    z-index: 1;
+    color: white
+  }
+  .card1::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    //background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+    background: #FFFDFA;
+    height: 130%;
+    animation: rotBGimg 3s linear infinite;
+    transition: all 0.2s linear;
+  }
+  
+  @keyframes rotBGimg {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .card1::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border-radius: 15px;
+    
+  }  
+//   .card1:hover:before {
+//     background-color: #FFFDFA;
+//     animation: rotBGimg 3.5s linear infinite;
+//   }
+
+#bronzo::after{
+    background: linear-gradient(
+        90deg, #844414 0%,
+               #cf7d52 25%,
+               #fcd5be 50%,
+               #cf7d52 75%,
+               #844414 100%,
+    );
+}
+#bronzo{
+    background: linear-gradient(
+        90deg, #844414 0%,
+               #cf7d52 25%,
+               #fcd5be 50%,
+               #cf7d52 75%,
+               #844414 100%,
+    );
+}
+#argento::after{
+    background: linear-gradient(
+        90deg, #787878 0%,
+               #b5b5b5 25%,
+               #e3e3e3 50%,
+               #b5b5b5 75%,
+               #787878 100%,
+    );
+}
+#argento{
+    background: linear-gradient(
+        90deg, #787878 0%,
+               #b5b5b5 25%,
+               #e3e3e3 50%,
+               #b5b5b5 75%,
+               #787878 100%,
+    );
+}
+#oro::after{
+    background: linear-gradient(
+        90deg, #bf9a47 0%,
+               #ffe233 25%,
+               #c7801d 50%,
+               #ffe233 75%,
+               #bf9a47 100%,
+    );
+}
+#oro{
+    background: linear-gradient(
+        90deg, #bf9a47 0%,
+               #ffe233 25%,
+               #c7801d 50%,
+               #ffe233 75%,
+               #bf9a47 100%,
+    );
 }

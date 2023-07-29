@@ -3,22 +3,22 @@
 <div id="main-show" class="row">
     <div id="left-box" class="col-lg-4">
         <h1 class="p-2">Il tuo profilo</h1>
-        <div class="d-flex">
-            <div id="foto" class="border1">
+        <div class="d-md-flex">
+            <div id="foto" class="border1 col-sm-12 col-md-6 col-lg-6">
             @if($doctor->photo)
                 <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
-                    <img class="doctor-img" class="img-fluid" src="{{ asset('storage/' . $doctor->photo) }}" alt="">
+                    <img class="doctor-img img-fluid rounded-circle"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
                 </a>
             @else
                 <div class="img-link d-flex justify-content-center align-items-center">
-                    <img class="doctor-img" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
+                    <img class="doctor-img img-fluid rounded-circle" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
                 </div>
             @endif
             </div>
             <div>
 
             </div>
-            <div id="info" class="border1">
+            <div id="info" class="border1 col-sm-12 col-md-6 col-lg-6">
                 <h5 class="mb-5">{{$user->name}} {{$user->lastname}}</h5>
                 <p class="m-0"><strong>Email:</strong> {{$user->email}}</p>
                 <p class="m-0"><strong>Indirizzo:</strong> {{$user->address}}</p>
@@ -72,33 +72,34 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title fs-5" id="exampleModalLabel">{{$user->name}} {{$user->lastname}}</h2>
+                        
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <p class="text-center">Grazie alla Sponsorizzazione sarai inserito nei medici in evidenza, la sezione del sito che tutti vedranno! Inoltre verrai sempre visualizzato prima degli altri nella pagina di ricerca!</p>
                         <form id="payment-form" action="{{route('admin.token')}}" method="POST" >
                             @csrf
                             <div class=" justify-content-center my-3 text-center" id="premium-section" style="display: none;">
-                                <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-                                    <div class="mb-2">Piano Silver</div>
-                                    <div class="mb-2">
-                                        Sponsorizza la tu pagina per <b>24 ore.</b>
-                                    </div>
-                                    <input type="radio" name="amount" id="submit-button-1" class="btn btn-sm btn-success" data-amount="10" value="1">€2.99</input>
+                                <div id="bronzo" class="card1 sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <h3 class="mb-2">Piano Bronzo</h3>
+                                    <p class="mb-2">
+                                        Sponsorizzazione per <b>24 ore.</b>
+                                    </p>
+                                    <input type="radio" name="amount" id="submit-button-1" class="btn btn-sm btn-success" data-amount="10" value="1"><span id="prezzo">€2.99</span></input>
                                 </div>
-                                <div class="sponsor-medium col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-                                    <div class="mb-2">Piano Gold</div>
-                                    <div class="mb-2">
-                                        Sponsorizza la tu pagina per <b>72 ore.</b>
-                                    </div>
-                                    <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2">€5.99</input>
+                                <div id="argento" class="card1 sponsor-medium col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <h3 class="mb-2">Piano Argento</h3>
+                                    <p class="mb-2">
+                                        Sponsorizzazione per <b>72 ore.</b>
+                                    </p>
+                                    <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2"><span id="prezzo">€5.99</span></input>
                                 </div>
-                                <div class="sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-                                    <div class="mb-2">Piano Platinum</div>
-                                    <div class="mb-2">
-                                        Sponsorizza la tu pagina per <b>144 ore.</b>
-                                    </div>
-                                    <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3">€9.99</input>
+                                <div id="oro" class="card1 sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
+                                    <h3 class="mb-2">Piano Oro</h3>
+                                    <p class="mb-2">
+                                        Sponsorizzazione per <b>144 ore.</b>
+                                    </p>
+                                    <input type="radio" name="amount" id="submit-button-3" class="btn btn-sm btn-success" data-amount="30" value="3"><span id="prezzo">€9.99</span></input>
                                 </div>
                             </div>
                             <div id="dropin-container" style="display: none; justify-content: center; align-items: center;"></div>

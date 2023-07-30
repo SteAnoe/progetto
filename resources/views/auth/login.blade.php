@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="main-login" class="mt-4">
-    <div class="row justify-content-center">
+<div id="main-login" class="">
+    <div class="d-flex justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Accedi') }}</div>

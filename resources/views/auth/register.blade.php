@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="main-reg" class="mt-4">
-    <div class="row justify-content-center">
+<div id="main-reg" class="">
+    <div class="d-flex justify-content-center">
         <div class="col-md-8">
             <div class="card mb-5">
                 <div class="card-header d-flex justify-content-between align-items-center"><span>{{ __('Registrati') }}</span><span class="campi">* campi obbligatori</span></div>

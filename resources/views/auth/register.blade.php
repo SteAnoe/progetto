@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
+<div id="main-reg" class="mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+            <div class="card mb-5">
+                <div class="card-header d-flex justify-content-between align-items-center"><span>{{ __('Registrati') }}</span><span class="campi">* campi obbligatori</span></div>
 
                 <div class="card-body">
                     <form id="form" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="mb-4 row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Nome') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" onblur="capitalizeFirstLetter('name')" oninput="validateField('name', 'name-feedback', 'Name is required.')" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="lastname" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Lastname') }}</label>
+                            <label for="lastname" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Cognome') }}</label>
 
                             <div class="col-md-6">
                                 <input id="lastname" type="text" onblur="capitalizeFirstLetter('lastname')" oninput="validateField('lastname', 'lastname-feedback', 'Lastname is required.')" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}"  autocomplete="lastname" autofocus>
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('E-Mail') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" oninput="validateField('email', 'email-feedback', 'Email is required.')" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Conferma Password') }}</label>
                             
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" oninput="validateField('password-confirm', 'password-confirm-feedback', 'Password confirmation is required.')" class="form-control @error('password-confirm') is-invalid @enderror"  name="password_confirmation"  autocomplete="new-password">
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="mb-4 row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Address') }}</label>                            
+                            <label for="address" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Indirizzo') }}</label>                            
                             <div class="col-md-6">
                                 <input id="address" type="text" oninput="validateField('address', 'address-feedback', 'Address is required.')" class="form-control @error('address') is-invalid @enderror" placeholder="Es. Via/Piazza Roma 15" name="address" >
                                 <div class="invalid-feedback" id="address-feedback"></div>
@@ -97,7 +97,7 @@
                             @error('specializations')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                            <h4><span class="text-danger">*</span> Specializations</h4>
+                            <h4><span class="text-danger">*</span> Specializzazione</h4>
                             <div class="invalid-feedback" id="specializations-feedback"></div>
                             <div class="check-specialization col-sm-12">
                                 @foreach($specializations as $specialization)
@@ -120,8 +120,8 @@
 
                         <div class="mb-4 row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary" onclick="submitForm(event)">
-                                    {{ __('Register') }}
+                                <button type="submit" class="btn btn-primary px-5" onclick="submitForm(event)">
+                                    {{ __('Registrati') }}
                                 </button>
                             </div>
                         </div>

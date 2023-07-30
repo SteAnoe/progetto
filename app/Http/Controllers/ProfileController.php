@@ -56,7 +56,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('http://localhost:5173/');
     }
 
     // public function destroy(Request $request): RedirectResponse

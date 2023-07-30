@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div id="cont-100" class="container d-flex justify-content-center align-items-center">
+<div id="main-sponsor" class="d-flex justify-content-center align-items-center">
     <div class="text-center">
         <h2>Grazie per aver acquistato il servizio!</h2>
         <h5>Sei a tutti gli effetti un Medico Sponsorizzato BDoctors!</h5>

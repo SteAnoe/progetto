@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div id="main-show" class="d-flex flex-wrap">
-    <div id="left-box" class=" col-md-12 col-lg-4">
+    <div id="left-box" class="col-12 col-md-12 col-lg-5">
         <h1 class="p-2">Il tuo profilo</h1>
-        <div class="d-xl-flex ">
-            <div id="foto" class="border1 col-sm-12 col-md-12 col-xl-6">
+        <div class="d-xxl-flex">
+            <div id="foto" class="border1 col-sm-12 col-md-12 col-xl-12 col-xxl-6">
             @if($doctor->photo)
                 <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
                     <img class="doctor-img img-fluid rounded-circle"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
@@ -18,7 +18,7 @@
             <div>
 
             </div>
-            <div id="info" class="border1 col-sm-12 col-md-12 col-xl-6">
+            <div id="info" class="border1 col-sm-12 col-md-12 col-xl-12 col-xxl-6">
                 <h5 class="mb-5">{{$user->name}} {{$user->lastname}}</h5>
                 <p class="m-0"><strong>Email:</strong> {{$user->email}}</p>
                 <p class="m-0"><strong>Indirizzo:</strong> {{$user->address}}</p>
@@ -57,10 +57,10 @@
             <button id="premium-button" class="btn mt-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">Sponsorizza il tuo profilo</button>
             <div class="d-flex justify-content-around align-items-center my-3">
                 <div>
-                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light">Modifica Profilo</a>
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light1">Modifica Profilo</a>
                 </div>
                 <div>
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+                <button type="button" class="btn btn-light1" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
                 Elimina profilo
                 </button>           
                 </div>   
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <div id="dropin-container" style="display: none; justify-content: center; align-items: center;"></div>
-                            <button id="submit-payment-btn" type="submit" class="mt-4 btn btn-sm btn-success" style="display: none;">Submit payment</button>
+                            <button id="submit-payment-btn" type="submit" class="mt-4 btn btn-sm btn-success" style="display: none;">Procedi al pagamento</button>
                             <input type="hidden" id="nonce" name="payment_method_nonce" />
                         </form>
                     </div>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>    
-    <div id="right-box" class="col-12 col-lg-8">
+    <div id="right-box" class="col-12 col-lg-7">
     
         <div id="msg-box" class="border1">
             <h2 >Messaggi</h2>

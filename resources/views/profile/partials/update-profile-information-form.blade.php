@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-secondary">
-            {{ __('Profile Information') }}
+            {{ __('Info Utente') }}
         </h2>
 
         <p class="mt-1 text-muted">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Aggiorna il tuo nome, cognome, indirizzo e mail.") }}
         </p>
     </header>
 
@@ -18,7 +18,7 @@
         @method('patch')
 
         <div class="mb-2">
-            <label for="name">{{__('Name')}}</label>
+            <label for="name">{{__('Nome')}}</label>
             <input class="form-control" type="text" name="name" id="name" autocomplete="name" value="{{old('name', $user->name)}}" required autofocus>
             @error('name')
             <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
         </div>
 
         <div class="mb-2">
-            <label for="lastname">{{__('Lastname')}}</label>
+            <label for="lastname">{{__('Cognome')}}</label>
             <input class="form-control" type="text" name="lastname" id="lastname" autocomplete="lastname" value="{{old('lastname', $user->lastname)}}" required autofocus>
             @error('lastname')
             <span class="invalid-feedback" role="alert">
@@ -39,7 +39,7 @@
 
         <div class="mb-2">
             <label for="email">
-                {{__('Email') }}
+                {{__('Mail') }}
             </label>
 
             <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email)}}" required autocomplete="username" />
@@ -69,7 +69,7 @@
             @endif
 
             <div class="mb-2">
-            <label for="address">{{__('Address')}}</label>
+            <label for="address">{{__('Indirizzo')}}</label>
             <input class="form-control" type="text" name="address" id="address" autocomplete="address" value="{{old('address', $user->address)}}" required autofocus>
             @error('address')
             <span class="invalid-feedback" role="alert">
@@ -80,7 +80,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-4">
-            <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
+            <button class="btn btn-primary" type="submit">{{ __('Salva') }}</button>
 
             @if (session('status') === 'profile-updated')
             <script>
@@ -91,7 +91,7 @@
                     el.style.display = 'block';
                 }
             </script>
-            <p id='profile-status' class="fs-5 text-muted">{{ __('Saved.') }}</p>
+            <p id='profile-status' class="fs-5 text-muted">{{ __('Aggiornato!') }}</p>
             @endif
         </div>
     </form>

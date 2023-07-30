@@ -28,7 +28,7 @@
 
         <nav class="navbar navbar-expand-md shadow-sm">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center text-white" href="{{ url('/') }}">
+                <a class="navbar-brand d-flex align-items-center text-white" href="{{ url('http://localhost:5173/') }}">
                     <!-- <div class="logo_laravel">
                         <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 150px">
                             <g clip-path="url(#clip0)" fill="#EF3B2D">
@@ -48,7 +48,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="http://localhost:5173/">{{ __('Home') }}</a>
+                            <a class="nav-link text-white" href="http://localhost:5173/"></a>
                         </li>
                     </ul>
 
@@ -57,11 +57,11 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Accedi') }}</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Registrati') }}</a>
                         </li>
                         @endif
                         @else
@@ -72,7 +72,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('admin.dashboard.index') }}">{{__('Dashboard')}}</a>
-                                <a class="dropdown-item" href="{{ url('admin/profile') }}">{{__('Profile')}}</a>
+                                <a class="dropdown-item" href="{{ url('admin/profile') }}">{{__('Profilo')}}</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

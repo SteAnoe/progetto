@@ -1,104 +1,109 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
-<h1>Modifica Profilo {{$user->lastname}}</h1>
+<div class="container">
 
-<form id="form" action="{{route ('admin.dashboard.update', $doctor['id'])}}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
     
-    <div class="form-group mb-3">
-        <label for="curriculum_vitae" class="form-label @error('curriculum_vitae') is-invalid @enderror">Curriculum Vitae</label>
-        @error('curriculum_vitae')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <input type="file" name="curriculum_vitae" id="curriculum_vitae" class="form-control" accept=".pdf, .jpg, .jpeg">
-        <div class="invalid-feedback" id="curriculum_vitae-feedback"></div>
-    </div>
-    @if($doctor->curriculum_vitae)
-    <div>
-        <input type="checkbox" name="delete_cv" id="delete_cv" onclick="toggleInput()">
-        <label for="delete_cv">Cancella il cv</label>
-    </div>
-    @endif
-    <div class="form-group mb-3">
-        <label for="description" class="form-label @error('description') is-invalid @enderror"><span class="text-danger fs-5">*</span> Description</label>
-        @error('description')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <textarea name="description" id="description" class="form-control" rows="5" maxlength="500" placeholder="Describe yourself and your performances...">{{old ('description') ?? $doctor->description }}</textarea>
-        <div class="invalid-feedback" id="description-feedback"></div>
-        <div id="counter" class="text-muted"></div>
-    </div>
-    <div class="form-group mb-3">
-        <label for="photo" class="form-label @error('photo') is-invalid @enderror">Photo</label>
-        @error('photo')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <input type="file" name="photo" id="photo" class="form-control" accept=".png, .jpg, .jpeg, .gif" >
-        <div class="invalid-feedback" id="photo-feedback"></div>
-    </div>
-    @if($doctor->photo)
-    <div>
-        <input type="checkbox" name="delete_photo" id="delete_photo" onclick="toggleInputImg()">
-        <label for="delete_photo">Cancella la foto</label>
-    </div>
-    @endif
-
-    <div class="form-group mb-3">
-        <label for="phone" class="form-label @error('phone') is-invalid @enderror"><span class="text-danger fs-5">*</span> Phone Number</label>
-        @error('phone')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}" placeholder="Insert your phone number">
-        <div class="invalid-feedback" id="phone-feedback"></div>
-    </div>
-
-    <div class="form-group mb-3">
-        @error('specializations')
+    
+    <form class="pt-5" id="form" action="{{route ('admin.dashboard.update', $doctor['id'])}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        
+        <div class="form-group mb-3">
+            <label for="curriculum_vitae" class="form-label @error('curriculum_vitae') is-invalid @enderror">Curriculum Vitae</label>
+            @error('curriculum_vitae')
             <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-        <h4><span class="text-danger">*</span> Specializations</h4>
-        <div class="invalid-feedback" id="specializations-feedback"></div>
-        @foreach($specializations as $specialization)
-        <div class="form-check">
-            
-            {{-- <input 
-                class="form-check-input" 
-                type="checkbox" 
-                name="specializations[]" 
-                value="{{$specialization->id}}"
-                id="specialization-checkbox-{{$specialization->id}}"> --}}
-
-                @if($errors->any())
-                <input 
+            @enderror
+            <input type="file" name="curriculum_vitae" id="curriculum_vitae" class="form-control" accept=".pdf, .jpg, .jpeg">
+            <div class="invalid-feedback" id="curriculum_vitae-feedback"></div>
+        </div>
+        @if($doctor->curriculum_vitae)
+        <div>
+            <input type="checkbox" name="delete_cv" id="delete_cv" onclick="toggleInput()">
+            <label for="delete_cv">Cancella il cv</label>
+        </div>
+        @endif
+        <div class="form-group mb-3">
+            <label for="description" class="form-label @error('description') is-invalid @enderror"><span class="text-danger fs-5">*</span> Descrizione</label>
+            @error('description')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <textarea name="description" id="description" class="form-control" rows="5" maxlength="500" placeholder="Describe yourself and your performances...">{{old ('description') ?? $doctor->description }}</textarea>
+            <div class="invalid-feedback" id="description-feedback"></div>
+            <div id="counter" class="text-muted"></div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="photo" class="form-label @error('photo') is-invalid @enderror">Foto</label>
+            @error('photo')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <input type="file" name="photo" id="photo" class="form-control" accept=".png, .jpg, .jpeg, .gif" >
+            <div class="invalid-feedback" id="photo-feedback"></div>
+        </div>
+        @if($doctor->photo)
+        <div>
+            <input type="checkbox" name="delete_photo" id="delete_photo" onclick="toggleInputImg()">
+            <label for="delete_photo">Cancella la foto</label>
+        </div>
+        @endif
+    
+        <div class="form-group mb-3">
+            <label for="phone" class="form-label @error('phone') is-invalid @enderror"><span class="text-danger fs-5">*</span> Telefono</label>
+            @error('phone')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <input type="text" name="phone" id="phone" class="form-control" value="{{old ('phone') ?? $doctor->phone }}" placeholder="Insert your phone number">
+            <div class="invalid-feedback" id="phone-feedback"></div>
+        </div>
+    
+        <div class="form-group mb-3">
+            @error('specializations')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <h4><span class="text-danger">*</span> Specializzazione</h4>
+            <div class="invalid-feedback" id="specializations-feedback"></div>
+            <div class="check-specialization col-sm-12">
+            @foreach($specializations as $specialization)
+            <div class="form-check">
+                
+                {{-- <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    name="specializations[]" 
+                    value="{{$specialization->id}}"
+                    id="specialization-checkbox-{{$specialization->id}}"> --}}
+    
+                    @if($errors->any())
+                    <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="specializations[]" 
+                        value="{{$specialization->id}}"
+                        id="specialization-checkbox-{{$specialization->id}}"
+                        {{in_array($specialization->id, old('specializations',[])) ? 'checked' : ''}}>
+        
+                @else
+                    <input 
                     class="form-check-input" 
                     type="checkbox" 
                     name="specializations[]" 
                     value="{{$specialization->id}}"
                     id="specialization-checkbox-{{$specialization->id}}"
-                    {{in_array($specialization->id, old('specializations',[])) ? 'checked' : ''}}>
+                    {{($doctor->specializations->contains($specialization)) ? 'checked' : ''}}>
+        
+                @endif
     
-            @else
-                <input 
-                class="form-check-input" 
-                type="checkbox" 
-                name="specializations[]" 
-                value="{{$specialization->id}}"
-                id="specialization-checkbox-{{$specialization->id}}"
-                {{($doctor->specializations->contains($specialization)) ? 'checked' : ''}}>
     
-            @endif
-
-
-            <label class="form-check-label" for="specialization-checkbox-{{$specialization->id}}">
-            {{$specialization->name}}
-            </label>
+                <label class="form-check-label" for="specialization-checkbox-{{$specialization->id}}">
+                {{$specialization->name}}
+                </label>
+            </div>
+            @endforeach
+            </div>
         </div>
-        @endforeach
-    </div>
-
-    <button class="btn btn-primary">modifica doctor</button>
-</form>
+    
+        <button class="btn btn-primary">Modifica profilo</button>
+    </form>
+</div>
     
 @endsection
 

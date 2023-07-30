@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<div id="main-show" class="row">
-    <div id="left-box" class="col-lg-4">
+<div id="main-show" class="d-flex flex-wrap">
+    <div id="left-box" class=" col-md-12 col-lg-4">
         <h1 class="p-2">Il tuo profilo</h1>
-        <div class="d-md-flex">
-            <div id="foto" class="border1 col-sm-12 col-md-6 col-lg-6">
+        <div class="d-xl-flex ">
+            <div id="foto" class="border1 col-sm-12 col-md-12 col-xl-6">
             @if($doctor->photo)
                 <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
                     <img class="doctor-img img-fluid rounded-circle"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
@@ -18,7 +18,7 @@
             <div>
 
             </div>
-            <div id="info" class="border1 col-sm-12 col-md-6 col-lg-6">
+            <div id="info" class="border1 col-sm-12 col-md-12 col-xl-6">
                 <h5 class="mb-5">{{$user->name}} {{$user->lastname}}</h5>
                 <p class="m-0"><strong>Email:</strong> {{$user->email}}</p>
                 <p class="m-0"><strong>Indirizzo:</strong> {{$user->address}}</p>
@@ -150,54 +150,65 @@
                 </div>
             </div>
         </div>    
-    <div id="right-box" class="col-lg-8">
+    <div id="right-box" class="col-12 col-lg-8">
     
-        <div id="msg-box" class="row border1">
+        <div id="msg-box" class="border1">
             <h2 >Messaggi</h2>
             @if ($doctor->messages->isEmpty())
             <p >Non ci sono messaggi.</p>
             @else
                 <table class="table">
-                    <thead>
-                        <tr>
+                    {{-- <thead>
+                        <tr class="">
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Message</th>
                         </tr>
-                    </thead>
+                    </thead> --}}
                     <tbody>
                         @foreach($doctor->messages->sortByDesc('created_at') as $message)
-                            <tr>
-                                <td>{{$message->name}} {{$message->lastname}}</td>
-                                <td>{{$message->email}}</td>
-                                <td>{{$message->text}}</td>
+                            <tr class="d-flex flex-wrap">
+                                <td class="col-12 col-sm-12 col-md-4"><b>{{$message->name}} {{$message->lastname}}</b><br>{{$message->email}}<br>{{$message->created_at}}</td>
+                                {{-- <td class="col-12 col-sm-12 col-md-3"></td> --}}
+                                <td class="col-12 col-sm-12 col-md-8">
+                                    <div class="wrapper-text">
+                                        <input type="checkbox" class="read-more-state" id="{{$message->id}}" />
+                                        <p class="read-more-wrap"><span class="read-more-target">{{$message->text}}</span></p>
+                                        <label for="{{$message->id}}" class="read-more-trigger"></label>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             @endif
         </div>
-        <div id="review-box" class="row border1">
+        <div id="review-box" class="border1">
             <h2>Recensioni</h2>
             @if($doctor->reviews->isEmpty())
             <p>Non ci sono recensioni.</p>
             @else
                 <table class="table">
-                    <thead>
+                    {{-- <thead>
                         <tr>
                             <th>Name</th>
                             <th>Review</th>
                             <th>Stars</th>
                             <th>Date</th>
                         </tr>
-                    </thead>
+                    </thead> --}}
                     <tbody>
                         @foreach($doctor->reviews->sortByDesc('created_at') as $review)
-                        <tr>
-                            <td>{{$review->name}} {{$review->lastname}}</td>
-                            <td>{{$review->text}}</td>
-                            <td>{{$review->stars}}</td>
-                            <td>{{$review->created_at}}</td>
+                        <tr class="d-flex flex-wrap">
+                            <td class="col-12 col-sm-12 col-md-4"><b>{{$review->name}} {{$review->lastname}}</b><br><b>Voto: </b>{{$review->stars}}<br>{{$review->created_at}}</td>
+                            <td class="col-12 col-sm-12 col-md-8">
+                                <div class="wrapper-text">
+                                    <input type="checkbox" class="read-more-state" id="{{$review->id}}" />
+                                    <p class="read-more-wrap"><span class="read-more-target"> {{$review->text}}</span></p>
+                                    <label for="{{$review->id}}" class="read-more-trigger"></label>
+                                </div>
+                               
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

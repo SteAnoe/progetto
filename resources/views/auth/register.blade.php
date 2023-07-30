@@ -99,23 +99,23 @@
                             @enderror
                             <h4><span class="text-danger">*</span> Specializations</h4>
                             <div class="invalid-feedback" id="specializations-feedback"></div>
-                            
-                            @foreach($specializations as $specialization)
-                            <div class="form-check">
-                                <input 
-                                    class="form-check-input @error('specializations') is-invalid @enderror" 
-                                    type="checkbox" 
-                                    name="specializations[]" 
-                                    value="{{$specialization->id}}"
-                                    id="specialization-checkbox-{{$specialization->id}}"
-                                    onchange="checkSpecializations()">
+                            <div class="check-specialization col-sm-12">
+                                @foreach($specializations as $specialization)
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input @error('specializations') is-invalid @enderror" 
+                                        type="checkbox" 
+                                        name="specializations[]" 
+                                        value="{{$specialization->id}}"
+                                        id="specialization-checkbox-{{$specialization->id}}"
+                                        onchange="checkSpecializations()">
 
-                                <label class="form-check-label" for="specialization-checkbox-{{$specialization->id}}">
-                                {{$specialization->name}}
-                                </label>
-                            </div>
-                            @endforeach
-                            
+                                    <label class="form-check-label" for="specialization-checkbox-{{$specialization->id}}">
+                                    {{$specialization->name}}
+                                    </label>
+                                </div>
+                                @endforeach
+                           </div>
                         </div>
 
                         <div class="mb-4 row mb-0">

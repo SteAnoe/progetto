@@ -247,3 +247,55 @@ h1{
                #bf9a47 100%,
     );
 }
+//registrazzione
+.check-specialization{
+display: grid;
+grid-template-columns: repeat(2,1fr);
+row-gap: 10px;
+}
+ @media only screen and (max-width:400px ){
+  .check-specialization{
+    display: block;
+  }
+ }
+ //show
+ .read-more-state {
+  display: none;
+}
+.read-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: .5s ease-in;
+  max-width: 100px;
+}
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+
+}
+
+.read-more-state ~ .read-more-trigger:before {
+  content: 'Mostra testo';
+
+}
+.read-more-state:checked ~ .read-more-trigger:before {
+  content: 'Nascondi testo';
+}
+.read-more-trigger {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 .5em;
+  color: #666;
+  font-size: .9em;
+  line-height: 2;
+  border: 1px solid #ddd;
+  border-radius: .25em;
+}
+tr{
+  border: 1px solid black;
+}
+td{
+  border: none;
+}

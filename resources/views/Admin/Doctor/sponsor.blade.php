@@ -12,12 +12,12 @@
 
 @section('script')
 <script>
-  // JavaScript code to trigger the button click after 5 seconds
-  document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(function () {
-      window.location.href = "{{ route('admin.dashboard.show', $doctor) }}";
-    }, 4000); // 5000 milliseconds = 5 seconds
-  });
+  
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   setTimeout(function () {
+  //     window.location.href = "{{ route('admin.dashboard.show', $doctor) }}";
+  //   }, 4000); // 5000 milliseconds = 5 seconds
+  // });
 </script>
 @endsection
 @endsection

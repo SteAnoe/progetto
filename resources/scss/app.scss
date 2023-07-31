@@ -8,33 +8,51 @@
 // }
 #app{
   // height: 1500px;
-  background: rgb(0,170,189);
-  background: linear-gradient(180deg, rgba(0,170,189,1) 0%, rgba(255,255,255,1) 87%);
+  background-color: #E7F0FF;
 }
 #main-sponsor{
     //height: calc(100vh - 56px);
     // overflow: hidden;
     //overflow-y: hidden;
-  height: 800px;
+    height: calc(100vh - 90px);
   //height: 100%;
     
 }
-#main-login,
-#main-reg{
+#main-login{
   margin-top: 100px;
+  height: calc(100vh - 190px);
   // background: rgb(0,170,189);
   // background: linear-gradient(0deg, rgba(0,170,189,1) 0%, rgba(255,255,255,1) 87%);
 }
+#navbarDropdown{
+  //border: 1px solid lightgray;
+  background-color: white;
+  opacity: 100%;
+  padding-left: 30px;
+  border-radius: 5px;
+  z-index: 2222;
+  position: relative;
+}
+#main-reg{
+  margin-top: 50px;
+  
+}
 #main-show{
   //height: 100%;
+  //background-color: #E7F0FF;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  
+  background-color: #E7F0FF;
 //   background: rgb(0,170,189);
 //   background: linear-gradient(0deg, rgba(0,170,189,1) 0%, rgba(255,255,255,1) 87%);
 }
 
 nav{
     height: 56px;
-    background-color: #00aabd; 
-    color: white;
+    background-color: white; 
+    color: black;
 }
 
 *{
@@ -47,22 +65,32 @@ nav{
   color: gray;
 }
 .img-link{
-    width: 100%;
-    height: 100%;
+    margin-top: 30px;
+    height: 50%;
+    max-height: 250px;
+}
+
+.doctor-img{
+  max-height: 250px;
+  max-width: 250px;
 }
 .border1{
-    border: 1px solid rgb(0, 0, 0); 
+    //border: 1px solid rgb(0, 0, 0); 
     //box-shadow: inset 0 0 15px 5px rgba(0, 0, 0, 0.4);
     transition: box-shadow 0.8s ease-in-out;
     padding: 10px;
+    border-radius: 15px;
+    background-color: rgba(255,255,255,1);
+    box-shadow: 0 0 10px 5px lightgray;
+    margin: 20px 0;
     
 }
 .border1:hover{
-    box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.6);
+    //box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.6);
 }
 
 h1{
-    border: 1px solid black;
+   
     margin: 0;
 }
 #left-box{
@@ -71,7 +99,10 @@ h1{
     
 }
 
-
+.mario{
+  border: none;
+  border-bottom: 1px solid lightgray;
+}
 
 #right-box{
     //height: calc(100vh - 56px);
@@ -79,13 +110,13 @@ h1{
     
 }
 
-.btn-light1{
+.btn-culo{
     border-radius: 30px;
     background-color: RGB(75, 89, 102);
     color: white;
 }
 
-.btn-light1:hover{
+.btn-culo:hover{
     //background-color: rgb(199, 57, 14); arancio
     //background-color: RGB(85, 85, 189); viola
     color: white;
@@ -94,13 +125,12 @@ h1{
     transition: transform 0.3s ease-in-out;
 }
 
-// #foto{
-//     width: 50%;
-// }
+.bordo-r{
+  border-right: 1px solid gray;
+  margin: 0 auto;
+}
 
-// #info{
-//     width: 50%;
-// }
+
 
 #premium-button{
     border-radius: 30px;
@@ -284,7 +314,14 @@ row-gap: 10px;
     main{
       overflow-y: auto;
     }
+    
  }
+ @media only screen and (max-width:1400px ){
+  
+  .bordo-r{
+    border-right: none;
+  }
+}
  //show
  .read-more-state {
   display: none;

@@ -1,45 +1,49 @@
 @extends('layouts.app')
 @section('content')
-<div id="main-show" class="d-flex flex-wrap">
-    <div id="left-box" class="col-12 col-md-12 col-lg-5">
-        <h1 class="p-2">Il tuo profilo</h1>
-        <div class="d-xxl-flex">
-            <div id="foto" class="border1 col-sm-12 col-md-12 col-xl-12 col-xxl-6">
+<div id="main-show" class="">
+    <div class="container p-3">
+
+    
+    <div id="titolo" class="d-flex align-items-center justify-content-between">
+        <h1 class="col-1 me-2">Profilo</h1>
+        <div class="col-10 "><hr style="color: grey; border: 2px solid grey;"></div>
+    </div>
+    <div id="left-box " class="col-12 col-md-12 col-lg-12">
+        <!-- <h1 class="p-2">Il tuo profilo</h1> -->
+        
+        <div class="d-xxl-flex justify-content-between border1 ">
+            <div class="p-3 col-sm-12 col-md-12 col-xl-12 col-xxl-3 bordo-r">
             @if($doctor->photo)
                 <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
-                    <img class="doctor-img img-fluid rounded-circle"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
+                    <img class="doctor-img rounded-circle col-6"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
                 </a>
+                <h5 class="mb-2 col-12 text-center pt-3">{{$user->name}} {{$user->lastname}}</h5>
             @else
                 <div class="img-link d-flex justify-content-center align-items-center">
-                    <img class="doctor-img img-fluid rounded-circle" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
+                    <img class="doctor-img rounded-circle" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
                 </div>
+                <h5 class="mb-2 col-12">{{$user->name}} {{$user->lastname}}</h5>
             @endif
             </div>
-            <div>
-
-            </div>
-            <div id="info" class="border1 col-sm-12 col-md-12 col-xl-12 col-xxl-6">
-                <h5 class="mb-5">{{$user->name}} {{$user->lastname}}</h5>
-                <p class="m-0"><strong>Email:</strong> {{$user->email}}</p>
-                <p class="m-0"><strong>Indirizzo:</strong> {{$user->address}}</p>
-                @if($doctor->phone)
-                    <p class="m-0"><strong>Tel:</strong> {{$doctor->phone}}</p>
-                @endif
-            </div> 
-        </div>
-        <div class="border1">
-            <div class="">
-                @if($doctor->description)
-                <div class="mb-3">
-                    <p class="card-text"><strong>Descrizione:</strong><br>{{$doctor->description}}</p>
-                </div>    
-                @endif
+            <div id="info" class="p-3 col-sm-12 col-md-12 col-xl-12 col-xxl-3 bordo-r d-flex flex-column justify-content-around">
+                
+                   
+                    <p class="m-0 py-1"><strong>Email:</strong> {{$user->email}}</p>
+                    <p class="m-0 py-1"><strong>Indirizzo:</strong> {{$user->address}}</p>
+                    @if($doctor->phone)
+                        <p class="m-0 py-1"><strong>Tel:</strong> {{$doctor->phone}}</p>
+                    @endif
+                
+                
                 @if ($doctor->curriculum_vitae)
-                    <strong>CV:</strong>
+                <div class="py-1">
+                    <strong >CV:</strong>
                     <a href="{{ asset('storage/' . $doctor->curriculum_vitae) }}" target="_blank">Preview</a>
+
+                </div>
                 @endif
                 @if ($doctor->specializations)
-                <div>
+                <div class="py-1">
                     <strong>Specializzazione:</strong><br>
                         <ul>
                             @foreach($doctor->specializations as $elem)	
@@ -49,18 +53,28 @@
                             @endforeach
                         </ul>            
                 </div>
-                @endif 
-            </div> 
+                @endif        
+            </div>
+            <div class="col-sm-12 col-md-12 col-xl-12 col-xxl-6 p-3">
+                <div class="">
+                    @if($doctor->description)
+                    <div class="mb-3">
+                        <p class="card-text"><strong>Descrizione:</strong><br>{{$doctor->description}}</p>
+                    </div>    
+                    @endif   
+                </div> 
+            </div>
         </div>
-        @if ($doctor->sponsorships->isEmpty())
+    </div>
+    @if ($doctor->sponsorships->isEmpty())
         <div class="border1 text-center">
             <button id="premium-button" class="btn mt-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">Sponsorizza il tuo profilo</button>
-            <div class="d-flex justify-content-around align-items-center my-3">
-                <div>
-                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light1">Modifica Profilo</a>
+            <div class="d-flex justify-content-center align-items-center my-3">
+                <div class="me-3">
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-culo">Modifica Profilo</a>
                 </div>
                 <div>
-                <button type="button" class="btn btn-light1" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+                <button type="button" class="btn btn-culo ms-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
                 Elimina profilo
                 </button>           
                 </div>   
@@ -111,25 +125,24 @@
             </div>
         </div>    
         @if ($doctor->sponsorships->isNotEmpty())
-        <div class="border1 px-3">
+        <div class="border1 px-3 text-center">
             <h2 class="my-3">Sponsorizzazione Attiva</h2>
             @foreach($doctor->sponsorships as $elem)	
             <p class="m-0"><strong>Level:</strong> {{$elem->level}}</p>
             <p class="m-0"><strong>Duration:</strong> {{$elem->duration}}h</p>
             <p class="m-0"><strong>Expire:</strong> {{$elem->pivot->expire}}</p>
             @endforeach
-            <div class="my-5 d-flex justify-content-around align-items-center">
-                <div>
-                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-light">Modifica Profilo</a>
+            <div class="my-5 d-flex justify-content-center align-items-center">
+                <div class="me-3">
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-culo">Modifica Profilo</a>
                 </div>
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+                <button type="button" class="btn btn-culo ms-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
                     Elimina profilo
                 </button>           
             </div>
 
         </div>
         @endif
-    </div>
         <div class="modal fade" id="{{$doctor->phone}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -150,7 +163,7 @@
                 </div>
             </div>
         </div>    
-    <div id="right-box" class="col-12 col-lg-7">
+    <div id="right-box" class="col-12 col-lg-12 pb-5">
     
         <div id="msg-box" class="border1">
             <h2 >Messaggi</h2>
@@ -167,8 +180,8 @@
                     </thead> --}}
                     <tbody>
                         @foreach($doctor->messages->sortByDesc('created_at') as $message)
-                            <tr class="d-flex flex-wrap">
-                                <td class="col-12 col-sm-12 col-md-4"><b>{{$message->name}} {{$message->lastname}}</b><br>{{$message->email}}<br>{{$message->created_at}}</td>
+                            <tr class="d-flex flex-wrap mario">
+                                <td class="col-12 col-sm-12 col-md-4"><b>{{$message->name}} {{$message->lastname}}</b><br>{{$message->email}}<br>{{$message->created_at->format('d/m/Y H:i')}}</td>
                                 {{-- <td class="col-12 col-sm-12 col-md-3"></td> --}}
                                 <td class="col-12 col-sm-12 col-md-8">
                                     <div class="wrapper-text">
@@ -199,8 +212,8 @@
                     </thead> --}}
                     <tbody>
                         @foreach($doctor->reviews->sortByDesc('created_at') as $review)
-                        <tr class="d-flex flex-wrap">
-                            <td class="col-12 col-sm-12 col-md-4"><b>{{$review->name}} {{$review->lastname}}</b><br><b>Voto: </b>{{$review->stars}}<br>{{$review->created_at}}</td>
+                        <tr class="d-flex flex-wrap mario">
+                            <td class="col-12 col-sm-12 col-md-4"><b>{{$review->name}} {{$review->lastname}}</b><br><b>Voto: </b>{{$review->stars}}<br>{{$review->created_at->format('d/m/Y H:i')}}</td>
                             <td class="col-12 col-sm-12 col-md-8">
                                 <div class="wrapper-text">
                                     <input type="checkbox" class="read-more-state" id="{{$review->id}}" />
@@ -217,7 +230,7 @@
         </div>
     </div>
 </div>
-
+</div>
  
 <script>
    let token = '{{ $token }}';

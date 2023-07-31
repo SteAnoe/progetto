@@ -27,7 +27,7 @@
             @error('description')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
-            <textarea name="description" id="description" class="form-control" rows="5" maxlength="500" placeholder="Describe yourself and your performances...">{{old ('description') ?? $doctor->description }}</textarea>
+            <textarea name="description" id="description" class="form-control" rows="5" maxlength="1000" placeholder="Descrivi te stesso e le tue prestazioni...">{{old ('description') ?? $doctor->description }}</textarea>
             <div class="invalid-feedback" id="description-feedback"></div>
             <div id="counter" class="text-muted"></div>
         </div>
@@ -222,7 +222,7 @@ document.querySelector('#form').addEventListener('submit', function(event) {
 
 let descriptionInput = document.getElementById("description");
 let counterElement = document.getElementById("counter");
-let maxLength = 500;
+let maxLength = 1000;
 
 descriptionInput.addEventListener("input", updateCounter);
 

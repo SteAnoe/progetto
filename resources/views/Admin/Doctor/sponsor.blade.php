@@ -4,6 +4,7 @@
     <div class="text-center">
         <h2>Grazie per aver acquistato il servizio!</h2>
         <h5>Sei a tutti gli effetti un Medico Sponsorizzato BDoctors!</h5>
+        <p>Stai per essere reindirizzato alla tua dashboard...</p>
     </div>  
 </div>
 

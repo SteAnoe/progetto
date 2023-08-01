@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2 class="fs-4 text-secondary my-4">
+<div class="container d-flex justify-content-center align-items-center" style="height: calc(100vh - 90px);">
+    <!-- <h2 class="fs-4 text-secondary my-4">
         {{ __('Dashboard') }}
-    </h2>
+    </h2> -->
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Welcome {{$user->name}} {{$user->lastname}}!</div>
+                
 
                 <div class="card-body d-flex justify-content-between align-items-center">
                     @if (session('status'))

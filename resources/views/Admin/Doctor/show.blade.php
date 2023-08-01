@@ -56,7 +56,7 @@
                 </div>
                 @endif        
             </div>
-            <div class="col-sm-12 col-md-12 col-xl-12 col-xxl-6 p-3">
+            <div class="col-sm-12 col-md-12 col-xl-12 col-xxl-6 p-3 d-flex flex-column justify-content-between">
                 <div class="">
                     @if($doctor->description)
                     <div class="mb-3">
@@ -64,13 +64,16 @@
                     </div>    
                     @endif   
                 </div> 
+                <div class="me-3 align-self-end">
+                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-culo">Modifica Profilo</a>
+                </div>
             </div>
         </div>
     </div>
     @if ($doctor->sponsorships->isEmpty())
         <div class="border1 text-center">
-            <button id="premium-button" class="btn mt-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">Sponsorizza il tuo profilo</button>
-            <div class="d-flex justify-content-center align-items-center my-3">
+            <button id="premium-button" class="btn my-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->id}}">Sponsorizza il tuo profilo</button>
+            <!-- <div class="d-flex justify-content-center align-items-center my-3">
                 <div class="me-3">
                     <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-culo">Modifica Profilo</a>
                 </div>
@@ -78,8 +81,8 @@
                 <button type="button" class="btn btn-culo ms-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
                 Elimina profilo
                 </button>           
-                </div>   
-            </div>
+                </div>    
+            </div> -->
         </div>  
         
         @endif
@@ -110,7 +113,7 @@
                                     <input type="radio" name="amount" id="submit-button-2" class="btn btn-sm btn-success" data-amount="20" value="2"><span id="prezzo">€5.99</span></input>
                                 </div>
                                 <div id="oro" class="card1 sponsor-base col-3 d-flex flex-column justify-content-center px-3 py-2 border">
-                                    <h3 class="mb-2">Piano Oro</h3>
+                                    <h3 class="mb-2">Piano <br> Oro</h3>
                                     <p class="mb-2">
                                         Sponsorizzazione per <b>144 ore.</b>
                                     </p>
@@ -131,16 +134,14 @@
             @foreach($doctor->sponsorships as $elem)	
             <p class="m-0"><strong>Level:</strong> {{$elem->level}}</p>
             <p class="m-0"><strong>Duration:</strong> {{$elem->duration}}h</p>
-            <p class="m-0"><strong>Expire:</strong> {{$elem->pivot->expire}}</p>
+            <p class="m-0 mb-3" ><strong >Expire:</strong> {{$elem->pivot->expire}}</p>
             @endforeach
-            <div class="my-5 d-flex justify-content-center align-items-center">
-                <div class="me-3">
-                    <a href="{{route('admin.dashboard.edit', $doctor)}}" class="btn btn-culo">Modifica Profilo</a>
-                </div>
-                <button type="button" class="btn btn-culo ms-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
+            <!-- <div class="my-5 d-flex justify-content-center align-items-center">
+                
+               <button type="button" class="btn btn-culo ms-3" data-bs-toggle="modal" data-bs-target="#{{$doctor->phone}}">
                     Elimina profilo
-                </button>           
-            </div>
+                </button> 
+            </div> -->
 
         </div>
         @endif
@@ -152,7 +153,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete your profile?</p>
+                        <p>Sicuro di voler eliminare il tuo profilo?</p>
                     </div>
                     <div class="modal-footer">
                         <form class="mx-3" action="{{ route('admin.dashboard.destroy', $doctor) }}" method="POST">
@@ -217,9 +218,9 @@
                             <td class="col-12 col-sm-12 col-md-4"><b>{{$review->name}} {{$review->lastname}}</b><br><b>Voto: </b>{{$review->stars}}<br>{{$review->created_at->format('d/m/Y H:i')}}</td>
                             <td class="col-12 col-sm-12 col-md-8">
                                 <div class="wrapper-text">
-                                    <input type="checkbox" class="read-more-state" id="{{$review->id}}" />
+                                    <input type="checkbox" class="read-more-state" id="{{$review->name}}" />
                                     <p class="read-more-wrap"><span class="read-more-target"> {{$review->text}}</span></p>
-                                    <label for="{{$review->id}}" class="read-more-trigger"></label>
+                                    <label for="{{$review->name}}" class="read-more-trigger"></label>
                                 </div>
                                
                             </td>
@@ -296,7 +297,22 @@
             premiumSection.style.display = 'none'; // Hide the premium section
         }
     });
+    var dateString = document.getElementById("output").getAttribute("data-expire");
 
+    // Create a Date object from the date string
+    var date = new Date(dateString);
+
+    // Format the date and time as "day-month-year hour-minute"
+    var formattedDateTime = date.toLocaleString('en-GB', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    // Output the formatted date and time
+    document.getElementById("output").textContent = formattedDateTime;
 </script>
 
 @endsection

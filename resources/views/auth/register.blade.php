@@ -15,7 +15,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Nome') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" onblur="capitalizeFirstLetter('name')" oninput="validateField('name', 'name-feedback', 'Name is required.')" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
+                                <input id="name" type="text" onblur="capitalizeFirstLetter('name')" oninput="validateField('name', 'name-feedback', 'Il campo è obbligatorio.')" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
                                 <div class="invalid-feedback" id="name-feedback"></div>
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -29,7 +29,7 @@
                             <label for="lastname" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Cognome') }}</label>
 
                             <div class="col-md-6">
-                                <input id="lastname" type="text" onblur="capitalizeFirstLetter('lastname')" oninput="validateField('lastname', 'lastname-feedback', 'Lastname is required.')" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}"  autocomplete="lastname" autofocus>
+                                <input id="lastname" type="text" onblur="capitalizeFirstLetter('lastname')" oninput="validateField('lastname', 'lastname-feedback', 'Il campo è obbligatorio.')" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}"  autocomplete="lastname" autofocus>
                                 <div class="invalid-feedback" id="lastname-feedback"></div>
                                 @error('lastname')
                                 <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('E-Mail') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" oninput="validateField('email', 'email-feedback', 'Email is required.')" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
+                                <input id="email" type="email" oninput="validateField('email', 'email-feedback', 'Il campo è obbligatorio.')" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
                                 <div class="invalid-feedback" id="email-feedback"></div>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" oninput="validateField('password', 'password-feedback', 'Password is required.')" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                <input id="password" type="password" oninput="validateField('password', 'password-feedback', 'Il campo è obbligatorio.')" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
                                 <div class="invalid-feedback" id="password-feedback"></div>
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Conferma Password') }}</label>
                             
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" oninput="validateField('password-confirm', 'password-confirm-feedback', 'Password confirmation is required.')" class="form-control @error('password-confirm') is-invalid @enderror"  name="password_confirmation"  autocomplete="new-password">
+                                <input id="password-confirm" type="password" oninput="validateField('password-confirm', 'password-confirm-feedback', 'Il campo è obbligatorio.')" class="form-control @error('password-confirm') is-invalid @enderror"  name="password_confirmation"  autocomplete="new-password">
                                 <div class="invalid-feedback" id="password-confirm-feedback"></div>
                                 @error('password-confirm')
                                 <span class="invalid-feedback" role="alert">
@@ -83,7 +83,7 @@
                         <div class="mb-4 row">
                             <label for="address" class="col-md-4 col-form-label text-md-right"><span class="text-danger">*</span> {{ __('Indirizzo') }}</label>                            
                             <div class="col-md-6">
-                                <input id="address" type="text" oninput="validateField('address', 'address-feedback', 'Address is required.')" class="form-control @error('address') is-invalid @enderror" placeholder="Es. Via/Piazza Roma 15" name="address" >
+                                <input id="address" type="text" oninput="validateField('address', 'address-feedback', 'Il campo è obbligatorio.')" class="form-control @error('address') is-invalid @enderror" placeholder="Es. Via/Piazza Roma 15" name="address" >
                                 <div class="invalid-feedback" id="address-feedback"></div>
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -217,7 +217,7 @@ function submitForm(event) {
   if (!validateEmailFormat(emailValue)) {
     emailInput.classList.remove('is-valid');
     emailInput.classList.add('is-invalid');
-    emailError.textContent = 'Invalid email format.';
+    emailError.textContent = 'Formato mail non valido.';
     isValidEmail = false;
   } else {
     emailError.textContent = '';

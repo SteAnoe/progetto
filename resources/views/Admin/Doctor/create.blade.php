@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="container pb-5">
 
     <h1>Creazione Profilo {{$user->lastname}}</h1>
     
@@ -91,8 +91,8 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     }
  
     let isValid = true;
-    isValid &= validateField('description', 'description-feedback', 'Description is required.');
-    isValid &= validateField('phone', 'phone-feedback', 'Phone is required.');
+    isValid &= validateField('description', 'description-feedback', 'Il campo è obbligatorio.');
+    isValid &= validateField('phone', 'phone-feedback', 'Il campo è obbligatorio.');
     isValid &= checkSpecializations();
 
     let phoneInput = document.getElementById('phone');
@@ -102,15 +102,15 @@ document.querySelector('#form').addEventListener('submit', function(event) {
     
     if (phoneValue.length > 10) {
         phoneInput.classList.add('is-invalid');
-        phoneFeedback.textContent = 'Phone number should not exceed 10 digits.';
+        phoneFeedback.textContent = 'Il numero non deve superare 10 cifre.';
         isValid = false;
     } else if (phoneValue.length < 7) {
         phoneInput.classList.add('is-invalid');
-        phoneFeedback.textContent = 'Phone number should have at least 7 digits.';
+        phoneFeedback.textContent = 'Il numero deve avere almeno 7 cifre.';
         isValid = false;
     } else if (!numberRegex.test(phoneValue)) {
         phoneInput.classList.add('is-invalid');
-        phoneFeedback.textContent = 'Phone number should contain only digits.';
+        phoneFeedback.textContent = 'Il numero deve contenere solo cifre.';
         isValid = false;
     } else {
         phoneInput.classList.remove('is-invalid');
@@ -122,7 +122,7 @@ document.querySelector('#form').addEventListener('submit', function(event) {
         let feedbackField = document.getElementById('specializations-feedback');
         let isAnySpecializationChecked = Array.from(specializationCheckboxes).some(cb => cb.checked);
         if (!isAnySpecializationChecked) {
-            feedbackField.textContent = 'Please select at least one specialization.';
+            feedbackField.textContent = 'Selezionare almeno una specializzazione.';
             feedbackField.style.display = 'block';
             return false;
         } else {
@@ -137,7 +137,7 @@ document.querySelector('#form').addEventListener('submit', function(event) {
 
     if (cvInput.files.length > 0 && !allowedTypesCV.includes(cvInput.files[0].type)) {
         cvInput.classList.add('is-invalid');
-        cvFeedback.textContent = 'Please upload a PDF, JPG, or JPEG file.';
+        cvFeedback.textContent = 'Il file caricato deve essere PDF, JPG, o JPEG.';
         isValid = false;
     } else {
         cvInput.classList.remove('is-invalid');
@@ -150,7 +150,7 @@ document.querySelector('#form').addEventListener('submit', function(event) {
 
     if (photoInput.files.length > 0 && !allowedTypesPhoto.includes(photoInput.files[0].type)) {
         photoInput.classList.add('is-invalid');
-        photoFeedback.textContent = 'Please upload a PNG, JPG, JPEG, or GIF file.';
+        photoFeedback.textContent = 'Il file caricato deve essere PNG, JPG, JPEG, o GIF.';
         isValid = false;
     } else {
         photoInput.classList.remove('is-invalid');

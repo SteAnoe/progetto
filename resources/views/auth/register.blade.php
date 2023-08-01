@@ -156,7 +156,7 @@
     let feedbackField = document.getElementById('specializations-feedback');
     let isAnySpecializationChecked = Array.from(specializationCheckboxes).some(cb => cb.checked);
     if (!isAnySpecializationChecked) {
-      feedbackField.textContent = 'Please select at least one specialization.';
+      feedbackField.textContent = 'Selezionare almeno una specializzazione.';
       feedbackField.style.display = 'block';
       return false;
     } else {
@@ -179,7 +179,7 @@
     confirmPasswordInput.classList.add('is-valid');
     confirmPasswordError.textContent = '';
   } else {
-    confirmPasswordError.textContent = 'The two passwords do not match';
+    confirmPasswordError.textContent = 'Le due password non corrispondono.';
     confirmPasswordInput.classList.remove('is-valid');
     confirmPasswordInput.classList.add('is-invalid');
   }
@@ -188,12 +188,12 @@
 function submitForm(event) {
   event.preventDefault();
 
-  let isValidName = validateField('name', 'name-feedback', 'Name is required.');
-  let isValidLastname = validateField('lastname', 'lastname-feedback', 'Lastname is required.');
-  let isValidEmail = validateField('email', 'email-feedback', 'Email is required.');
-  let isValidPassword = validateField('password', 'password-feedback', 'Password is required.');
-  let isValidPasswordConfirm = validateField('password-confirm', 'password-confirm-feedback', 'Password confirmation is required.');
-  let isValidAddress = validateField('address', 'address-feedback', 'Address is required.');
+  let isValidName = validateField('name', 'name-feedback', 'Il campo è obbligatorio.');
+  let isValidLastname = validateField('lastname', 'lastname-feedback', 'Il campo è obbligatorio.');
+  let isValidEmail = validateField('email', 'email-feedback', 'Il campo è obbligatorio.');
+  let isValidPassword = validateField('password', 'password-feedback', 'Il campo è obbligatorio.');
+  let isValidPasswordConfirm = validateField('password-confirm', 'password-confirm-feedback', 'Il campo è obbligatorio.');
+  let isValidAddress = validateField('address', 'address-feedback', 'Il campo è obbligatorio.');
   let isValidSpecializations = checkSpecializations();
 
   let password = document.getElementById('password').value;

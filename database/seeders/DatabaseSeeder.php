@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             
             SpecializationSeeder::class,
             SponsorshipSeeder::class,
-            UserSeeder::class,
-            MessageSeeder::class,
+            // UserSeeder::class,
+            // MessageSeeder::class,
             
         ]);
     }

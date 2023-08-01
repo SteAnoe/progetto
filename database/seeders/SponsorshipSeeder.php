@@ -17,19 +17,19 @@ class SponsorshipSeeder extends Seeder
     {
         $sponsorships = [
          [
-            'Level'=> 'Silver',
+            'Level'=> 'Bronze',
             'Description' => 'Entry level sponsorship',
             'Price' => '2.99',
             'Duration' => '24',
          ],
          [
-            'Level'=> 'Gold',
+            'Level'=> 'Silver',
             'Description' => 'Medium level sponsorship',
             'Price' => '5.99',
             'Duration' => '72',
          ],
          [
-            'Level'=> 'Platinum',
+            'Level'=> 'Gold',
             'Description' => 'High level sponsorship',
             'Price' => '9.99',
             'Duration' => '144',

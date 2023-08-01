@@ -17,13 +17,14 @@
                 <a class="img-link d-flex justify-content-center align-items-center" href="{{ asset('storage/' . $doctor->photo) }}" data-lightbox="image-preview">
                     <img class="doctor-img rounded-circle col-6"  src="{{ asset('storage/' . $doctor->photo) }}" alt="">
                 </a>
-                <h5 class="mb-2 col-12 text-center pt-3">{{$user->name}} {{$user->lastname}}</h5>
+                
             @else
                 <div class="img-link d-flex justify-content-center align-items-center">
                     <img class="doctor-img rounded-circle" src="https://superawesomevectors.com/wp-content/uploads/2021/02/doctor-vector-icon.jpg" alt="">    
                 </div>
-                <h5 class="mb-2 col-12">{{$user->name}} {{$user->lastname}}</h5>
+                
             @endif
+                <h5 class="mb-2 col-12 text-center pt-5">{{$user->name}} {{$user->lastname}}</h5>
             </div>
             <div id="info" class="p-3 col-sm-12 col-md-12 col-xl-12 col-xxl-3 bordo-r d-flex flex-column justify-content-around">
                 
